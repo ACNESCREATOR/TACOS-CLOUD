@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TACOS CLOUD | Red de Taquerías Afiliadas y Pedidos en Línea</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Outfit + Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['"Outfit"', 'system-ui', 'sans-serif'],
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            tc: {
+              bg: '#070709',
+              surface: '#0E0F12',
+              panel: '#14161B',
+              line: 'rgba(255, 255, 255, 0.1)',
+              muted: '#A3AAB8',
+              accent: '#E11D2E',
+              accentHover: '#BE1224',
+              accentSoft: 'rgba(225, 29, 46, 0.16)',
+              maiz: '#E0A96D',
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #070709;
+      color: #F4F5F7;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    .tc-pastor-bg {
+      background-image:
+        linear-gradient(180deg, rgba(7, 7, 9, 0.80) 0%, rgba(7, 7, 9, 0.92) 48%, rgba(7, 7, 9, 0.97) 100%),
+        radial-gradient(circle at 20% 15%, rgba(225, 29, 46, 0.22), transparent 55%),
+        url("https://cdn.milenio.com/uploads/media/2019/07/24/trompo-pastor-inspirado-trompo-mexicano.jpg");
+      background-size: cover, cover, cover;
+      background-position: center, center, center;
+      background-attachment: fixed, scroll, fixed;
+    }
+
+    @keyframes tcPulse {
+      0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(225, 29, 46, 0.75);
+      }
+      50% {
+        opacity: 0.45;
+        transform: scale(0.86);
+        box-shadow: 0 0 0 6px rgba(225, 29, 46, 0);
+      }
+    }
+
+    .tc-pulse-dot {
+      animation: tcPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+
+    .photo-slot-placeholder {
+      background-image:
+        linear-gradient(to right, rgba(225, 29, 46, 0.12) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(225, 29, 46, 0.12) 1px, transparent 1px);
+      background-size: 16px 16px;
+    }
+  </style>
+</head>
+
+<body class="bg-tc-bg text-[#F4F5F7] tc-pastor-bg antialiased selection:bg-tc-accent selection:text-white">
+
+  <!-- ========================================================================
+       1. BARRA SUPERIOR STICKY — TACOS CLOUD
+       ======================================================================== -->
+  <header class="sticky top-0 z-40 bg-tc-bg/85 backdrop-blur-md border-b border-tc-line">
+    <div class="max-w-6xl mx-auto px-4 sm:px-8 h-20 flex items-center justify-between gap-4">
+
+      <a href="#inicio" class="flex items-center gap-3 group focus:outline-none">
+        <div class="w-10 h-10 rounded-xl bg-tc-panel/90 border border-tc-line flex items-center justify-center group-hover:border-tc-accent transition">
+          <svg class="w-5 h-5 text-tc-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 15c0-4.5 3.6-8 8-8s8 3.5 8 8H4z" />
+            <line x1="3" y1="18" x2="21" y2="18" stroke="#E0A96D" stroke-linecap="round" />
+          </svg>
+        </div>
+        <div>
+          <span class="block font-display text-lg sm:text-xl font-extrabold tracking-[0.14em] text-white leading-none">
+            TACOS CLOUD
+          </span>
+          <span class="block text-[11px] font-medium tracking-wider text-tc-muted mt-1">
+            Red de Taquerías Afiliadas · Pedidos en Línea
+          </span>
+        </div>
+      </a>
+
+      <nav aria-label="Navegación principal" class="hidden md:flex items-center gap-7 font-display text-sm font-medium text-[#D1D5DB]">
+        <a href="#inicio" class="hover:text-tc-accent transition py-1">Inicio</a>
+        <a href="#taquerias" class="hover:text-tc-accent transition py-1">Taquerías</a>
+        <a href="#menu" class="hover:text-tc-accent transition py-1">Menú</a>
+        <a href="#pedido" class="hover:text-tc-accent transition py-1">Hacer Pedido</a>
+      </nav>
+
+      <a href="#pedido" id="headerOrderCounterBtn"
+        class="font-display inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl bg-tc-accent hover:bg-tc-accentHover text-white text-xs sm:text-sm font-semibold transition">
+        <span>Ver Pedido</span>
+        <span id="headerOrderBadge" class="px-2 py-0.5 rounded-full bg-black/30 text-white text-xs font-bold">
+          0
+        </span>
+      </a>
+
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ========================================================================
+         2. HERO ASIMÉTRICO — TACOS CLOUD
+         ======================================================================== -->
+    <section id="inicio" class="max-w-6xl mx-auto px-4 sm:px-8 pt-10 sm:pt-14 pb-12">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+
+        <div class="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left space-y-5">
+          <div class="inline-flex items-center justify-center gap-2.5 px-3.5 py-1.5 rounded-full bg-tc-panel/95 border border-tc-accent/40 text-[#F3F4F6] font-display text-[11px] font-semibold tracking-[0.15em] uppercase mx-auto lg:mx-0">
+            <span class="w-2 h-2 rounded-full bg-tc-accent tc-pulse-dot" aria-hidden="true"></span>
+            <span>Red Multi-Taquería · Sucursal Más Cercana</span>
+          </div>
+
+          <h1 class="font-display text-3xl sm:text-5xl font-extrabold text-white leading-[1.08] tracking-tight">
+            Encuentra tu taquería afiliada <span class="text-tc-maiz">más cercana</span> y pide al momento.
+          </h1>
+
+          <p class="text-sm sm:text-base text-[#D1D5DB] max-w-xl leading-relaxed">
+            Iniciamos con <strong class="text-white">AKE Tacos (CP 57180)</strong> como sucursal afiliada principal y sumamos más taquerías locales bajo el ecosistema <strong class="text-white">TACOS CLOUD</strong> con seguimiento en vivo.
+          </p>
+
+          <div class="pt-1 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-3.5 w-full sm:w-auto">
+            <a href="#taquerias"
+              class="font-display inline-flex items-center justify-center w-full sm:w-auto px-6 py-3.5 rounded-xl bg-tc-accent hover:bg-tc-accentHover text-white text-sm font-semibold transition">
+              Ver Taquería Más Cercana ↓
+            </a>
+            <a href="#menu"
+              class="font-display inline-flex items-center justify-center w-full sm:w-auto px-6 py-3.5 rounded-xl bg-tc-panel/95 hover:bg-[#1C1F27] text-white border border-tc-line text-sm font-semibold transition">
+              Explorar Menú →
+            </a>
+          </div>
+        </div>
+
+        <aside class="lg:col-span-5 bg-tc-panel/90 backdrop-blur-md rounded-2xl p-6 border border-tc-line space-y-4">
+          <div class="flex items-center justify-between border-b border-tc-line pb-3">
+            <span class="font-display text-xs font-bold uppercase tracking-[0.16em] text-tc-accent">
+              Sucursal Seleccionada
+            </span>
+            <span id="heroSelectedCpBadge" class="text-xs font-bold text-tc-maiz">CP 57180</span>
+          </div>
+
+          <div>
+            <p id="heroSelectedTaqueriaName" class="font-display text-xl font-bold text-white">AKE Tacos</p>
+            <p id="heroSelectedTaqueriaMeta" class="text-xs text-tc-muted mt-1">
+              Sucursal Fundadora · Código Postal 57180 · Activa en TACOS CLOUD
+            </p>
+          </div>
+
+          <div class="pt-2 border-t border-tc-line space-y-2.5 text-xs text-[#D1D5DB]">
+            <div class="flex items-center justify-between">
+              <span class="text-tc-muted">Cercanía estimada:</span>
+              <strong id="heroDistanceLabel" class="text-emerald-400 font-bold">Sucursal base (0.0 km)</strong>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-tc-muted">Seguimiento y chat:</span>
+              <strong class="text-white">En vivo en pantalla</strong>
+            </div>
+          </div>
+        </aside>
+
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         3. DETECTOR DE CERCANÍA (CP / GPS) + TAQUERÍAS AFILIADAS
+         ======================================================================== -->
+    <section id="taquerias" class="max-w-6xl mx-auto px-4 sm:px-8 py-12 scroll-mt-20 space-y-6">
+
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-tc-line">
+        <div>
+          <span class="font-display text-xs font-semibold tracking-[0.18em] uppercase text-tc-accent">
+            Cobertura por Código Postal y GPS
+          </span>
+          <h2 class="font-display text-3xl sm:text-4xl font-bold text-white mt-1">
+            Taquerías Afiliadas en TACOS CLOUD
+          </h2>
+        </div>
+
+        <!-- Buscador por CP o GPS para elegir la más cercana -->
+        <div class="flex flex-wrap items-center gap-2">
+          <label for="userCpInput" class="sr-only">Tu código postal</label>
+          <input id="userCpInput" type="text" inputmode="numeric" maxlength="5" placeholder="Tu CP (ej. 57180)"
+            class="w-36 sm:w-40 text-xs sm:text-sm text-white bg-tc-panel border border-tc-line rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-tc-accent" />
+          <button type="button" id="btnCalcularPorCp"
+            class="font-display px-4 py-2.5 rounded-xl bg-tc-accent hover:bg-tc-accentHover text-white text-xs font-semibold transition cursor-pointer">
+            Buscar cercana
+          </button>
+          <button type="button" id="btnDetectarGpsCercana"
+            class="font-display px-3.5 py-2.5 rounded-xl bg-tc-panel hover:bg-[#1C1F27] text-[#E5E7EB] border border-tc-line text-xs font-semibold transition cursor-pointer">
+            📍 Usar GPS
+          </button>
+        </div>
+      </div>
+
+      <div id="taqueriasGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+
+    </section>
+
+    <!-- ========================================================================
+         4. MENÚ DE LA TAQUERÍA AFILIADA SELECCIONADA
+         ======================================================================== -->
+    <section id="menu" class="max-w-6xl mx-auto px-4 sm:px-8 py-12 scroll-mt-20">
+
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 mb-8 border-b border-tc-line">
+        <div>
+          <span id="menuActiveBranchTag" class="font-display text-xs font-semibold tracking-[0.18em] uppercase text-tc-accent">
+            Carta de AKE Tacos · CP 57180
+          </span>
+          <h2 id="menuActiveBranchTitle" class="font-display text-3xl sm:text-4xl font-bold text-white mt-1">
+            Menú de AKE Tacos
+          </h2>
+        </div>
+
+        <div class="flex flex-wrap gap-2" role="group" aria-label="Filtrar menú por categoría">
+          <button type="button" data-menu-filter="ALL"
+            class="menu-filter-btn font-display px-4 py-2 rounded-xl text-xs font-semibold bg-tc-accent text-white transition cursor-pointer">
+            Todos
+          </button>
+          <button type="button" data-menu-filter="Tacos"
+            class="menu-filter-btn font-display px-4 py-2 rounded-xl text-xs font-medium bg-tc-panel/90 text-[#D1D5DB] border border-tc-line hover:border-tc-accent transition cursor-pointer">
+            Tacos
+          </button>
+          <button type="button" data-menu-filter="Especialidades"
+            class="menu-filter-btn font-display px-4 py-2 rounded-xl text-xs font-medium bg-tc-panel/90 text-[#D1D5DB] border border-tc-line hover:border-tc-accent transition cursor-pointer">
+            Especialidades
+          </button>
+          <button type="button" data-menu-filter="Bebidas"
+            class="menu-filter-btn font-display px-4 py-2 rounded-xl text-xs font-medium bg-tc-panel/90 text-[#D1D5DB] border border-tc-line hover:border-tc-accent transition cursor-pointer">
+            Bebidas
+          </button>
+        </div>
+      </div>
+
+      <div id="menuGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+
+    </section>
+
+    <!-- ========================================================================
+         5. FORMULARIO DE PEDIDOS + SEGUIMIENTO PERSISTENTE Y CHAT EN VIVO
+         ======================================================================== -->
+    <section id="pedido" class="max-w-6xl mx-auto px-4 sm:px-8 py-14 scroll-mt-20">
+
+      <div id="pedidoSectionHeader" class="pb-6 mb-8 border-b border-tc-line">
+        <span class="font-display text-xs font-semibold tracking-[0.18em] uppercase text-tc-accent">
+          Formulario de Pedidos · TACOS CLOUD
+        </span>
+        <h2 class="font-display text-3xl sm:text-4xl font-bold text-white mt-1">
+          Completa y Envía tu Pedido
+        </h2>
+        <p class="text-sm text-[#D1D5DB] mt-1.5">
+          Ordenando en: <strong id="formBranchSummary" class="text-tc-maiz">AKE Tacos (CP 57180)</strong>. Revisa tu selección y envía tu pedido.
+        </p>
+      </div>
+
+      <div id="orderFormWrapper" class="grid grid-cols-1 lg:grid-cols-12 gap-7 items-start">
+
+        <div class="lg:col-span-6 bg-tc-surface/95 backdrop-blur-sm rounded-2xl p-6 border border-tc-line space-y-5">
+          <div class="flex items-center justify-between gap-2 pb-3 border-b border-tc-line">
+            <h3 class="font-display text-xl font-bold text-white">
+              Platillos en tu Pedido
+            </h3>
+            <span id="orderItemsCountLabel" class="text-xs font-semibold text-tc-accent">
+              0 productos
+            </span>
+          </div>
+
+          <div id="orderItemsList" class="space-y-3 min-h-[140px]"></div>
+
+          <div class="pt-4 border-t border-tc-line space-y-2 text-sm">
+            <div class="flex justify-between text-tc-muted">
+              <span>Subtotal de platillos:</span>
+              <span id="orderSubtotalText" class="font-semibold text-white">$0.00</span>
+            </div>
+            <div class="flex justify-between items-center pt-2 border-t border-tc-line font-display">
+              <span class="text-base font-bold text-white">TOTAL ESTIMADO:</span>
+              <span id="orderTotalText" class="text-2xl font-extrabold text-tc-accent">$0.00</span>
+            </div>
+          </div>
+        </div>
+
+        <form id="tacosCloudForm" novalidate class="lg:col-span-6 bg-tc-panel/95 backdrop-blur-sm rounded-2xl p-6 sm:p-7 border border-tc-line space-y-5">
+
+          <h3 class="font-display text-xl font-bold text-white pb-2 border-b border-tc-line">
+            Datos del Pedido
+          </h3>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label for="clienteNombreInput" class="block font-display text-xs font-semibold uppercase tracking-wider text-[#D1D5DB] mb-1.5">
+                Nombre *
+              </label>
+              <input id="clienteNombreInput" type="text" required placeholder="Ej. Carlos Ramírez"
+                class="w-full text-sm text-white bg-tc-bg border border-tc-line rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-tc-accent" />
+            </div>
+
+            <div>
+              <label for="clienteTelefonoInput" class="block font-display text-xs font-semibold uppercase tracking-wider text-[#D1D5DB] mb-1.5">
+                Teléfono (10 dígitos) *
+              </label>
+              <input id="clienteTelefonoInput" type="tel" inputmode="numeric" maxlength="10" required placeholder="Ej. 5512345678"
+                class="w-full text-sm text-white bg-tc-bg border border-tc-line rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-tc-accent" />
+            </div>
+          </div>
+
+          <div>
+            <span class="block font-display text-xs font-semibold uppercase tracking-wider text-[#D1D5DB] mb-2">
+              Modalidad de entrega *
+            </span>
+            <div class="grid grid-cols-2 gap-3">
+              <label class="cursor-pointer">
+                <input type="radio" name="tipoEntrega" value="Recoger en local" class="peer sr-only" checked />
+                <div class="font-display text-center text-xs font-semibold py-2.5 px-3 rounded-xl bg-tc-bg border border-tc-line text-[#D1D5DB] peer-checked:bg-tc-accent peer-checked:text-white peer-checked:border-tc-accent transition">
+                  🏪 Recoger en local
+                </div>
+              </label>
+              <label class="cursor-pointer">
+                <input type="radio" name="tipoEntrega" value="Envío a domicilio" class="peer sr-only" />
+                <div class="font-display text-center text-xs font-semibold py-2.5 px-3 rounded-xl bg-tc-bg border border-tc-line text-[#D1D5DB] peer-checked:bg-tc-accent peer-checked:text-white peer-checked:border-tc-accent transition">
+                  🛵 Envío a domicilio
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <div id="direccionEntregaGroup" class="space-y-2.5">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <label for="direccionEntregaInput" class="block font-display text-xs font-semibold uppercase tracking-wider text-[#D1D5DB]">
+                Dirección de Entrega *
+              </label>
+              <button type="button" id="btnObtenerUbicacion"
+                class="font-display inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-tc-accentSoft hover:bg-tc-accent text-tc-accent hover:text-white border border-tc-accent/40 text-[11px] font-semibold transition cursor-pointer">
+                <span>📍</span>
+                <span id="btnUbicacionLabel">Adjuntar ubicación GPS</span>
+              </button>
+            </div>
+
+            <input id="direccionEntregaInput" type="text" required placeholder="Calle, número exterior/interior, colonia y referencias *"
+              class="w-full text-sm text-white bg-tc-bg border border-tc-line rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-tc-accent" />
+
+            <div id="ubicacionCapturadaBox" class="hidden flex items-center justify-between gap-2 bg-tc-bg border border-emerald-500/40 rounded-xl px-3.5 py-2.5 text-xs">
+              <div class="min-w-0">
+                <span class="font-display font-semibold text-emerald-400 block">✓ Ubicación GPS adjuntada al pedido</span>
+                <a id="ubicacionMapsLink" href="#" target="_blank" rel="noopener noreferrer"
+                  class="text-[#D1D5DB] hover:text-white underline truncate block mt-0.5">
+                  Ver punto exacto en Google Maps
+                </a>
+              </div>
+              <button type="button" id="btnQuitarUbicacion" title="Quitar ubicación GPS"
+                class="px-2 py-1 rounded-lg bg-tc-panel hover:bg-tc-line text-tc-muted hover:text-white text-xs font-bold cursor-pointer shrink-0">
+                ✕
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <label for="notasPedidoInput" class="block font-display text-xs font-semibold uppercase tracking-wider text-[#D1D5DB] mb-1.5">
+              Notas de preparación o salsas
+            </label>
+            <textarea id="notasPedidoInput" rows="3" placeholder="Ej. Salsa verde aparte, sin cebolla en dos tacos, bien dorados..."
+              class="w-full text-sm text-white bg-tc-bg border border-tc-line rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-tc-accent"></textarea>
+          </div>
+
+          <div id="pedidoErrorBox" class="hidden text-xs font-semibold text-[#FCA5A5] bg-[#451A1A] border border-[#991B1B] rounded-xl px-4 py-3"></div>
+
+          <button id="submitPedidoBtn" type="submit"
+            class="font-display w-full py-3.5 px-6 rounded-xl bg-tc-accent hover:bg-tc-accentHover text-white text-sm font-bold tracking-wide transition flex items-center justify-center gap-2 cursor-pointer">
+            <span>Enviar Pedido a TACOS CLOUD</span>
+            <span>→</span>
+          </button>
+
+        </form>
+
+      </div>
+
+      <!-- VISTA DE SEGUIMIENTO PERSISTENTE + CHAT EN VIVO -->
+      <div id="seguimiento" class="hidden max-w-3xl mx-auto bg-tc-panel/95 backdrop-blur-md rounded-2xl p-6 sm:p-8 border border-tc-accent/60 shadow-2xl space-y-6">
+
+        <div class="rounded-xl bg-amber-500/15 border border-amber-400/50 px-4 py-3.5 flex items-start gap-3">
+          <span class="text-lg leading-none mt-0.5" aria-hidden="true">⚠️</span>
+          <div class="text-xs sm:text-sm text-amber-100">
+            <strong class="font-display font-bold text-amber-300 block">No actualices ni cierres esta página hasta recibir tu pedido.</strong>
+            <span>Tu seguimiento y chat permanecen activos incluso si recargas esta pestaña; aquí verás cuando tu orden pase a <strong>Preparando</strong> o <strong>En camino</strong>.</span>
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-tc-line">
+          <div>
+            <span id="receiptTaqueriaLabel" class="font-display text-xs font-semibold uppercase tracking-widest text-tc-accent">
+              AKE Tacos · CP 57180 · TACOS CLOUD
+            </span>
+            <h3 class="font-display text-2xl sm:text-3xl font-bold text-white mt-1">
+              Folio: <span id="receiptFolio" class="text-tc-accent">TC-2026-0000</span>
+            </h3>
+          </div>
+          <span id="estadoBadgePill" class="px-3.5 py-1.5 rounded-full text-xs font-bold bg-tc-accentSoft text-tc-accent border border-tc-accent/40 self-start sm:self-auto">
+            ● Recibido
+          </span>
+        </div>
+
+        <div id="estadoMensajeBox" class="bg-tc-bg rounded-xl p-4 border border-tc-line">
+          <p id="estadoTituloTexto" class="font-display text-base font-bold text-white">Pedido recibido en cocina</p>
+          <p id="estadoDescripcionTexto" class="text-xs sm:text-sm text-tc-muted mt-1">
+            Hemos registrado tu orden. En cuanto comience la preparación te avisaremos aquí mismo.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5" id="statusStepsGrid">
+          <div data-step-estado="Recibido" class="status-step-card rounded-xl p-3 border border-tc-accent bg-tc-accentSoft">
+            <span class="block font-display text-xs font-bold text-white">1. Recibido</span>
+            <span class="block text-[11px] text-[#E5E7EB] mt-0.5">Orden confirmada</span>
+          </div>
+          <div data-step-estado="Preparando" class="status-step-card rounded-xl p-3 border border-tc-line bg-tc-bg">
+            <span class="block font-display text-xs font-bold text-tc-muted">2. Preparando</span>
+            <span class="block text-[11px] text-tc-muted mt-0.5">En trompo y plancha</span>
+          </div>
+          <div data-step-estado="En camino" class="status-step-card rounded-xl p-3 border border-tc-line bg-tc-bg">
+            <span class="block font-display text-xs font-bold text-tc-muted">3. En camino</span>
+            <span class="block text-[11px] text-tc-muted mt-0.5">Repartidor / listo</span>
+          </div>
+          <div data-step-estado="Entregado" class="status-step-card rounded-xl p-3 border border-tc-line bg-tc-bg">
+            <span class="block font-display text-xs font-bold text-tc-muted">4. Entregado</span>
+            <span class="block text-[11px] text-tc-muted mt-0.5">¡A disfrutar!</span>
+          </div>
+        </div>
+
+        <div class="bg-tc-bg rounded-xl p-4 border border-tc-line space-y-2 text-xs sm:text-sm">
+          <p class="text-[#D1D5DB]">
+            <strong class="text-white">Cliente:</strong> <span id="receiptCliente"></span> · <span id="receiptTelefono"></span>
+          </p>
+          <p class="text-[#D1D5DB]">
+            <strong class="text-white">Entrega (<span id="receiptEntrega"></span>):</strong> <span id="receiptDireccion"></span>
+          </p>
+          <div id="receiptUbicacionRow" class="hidden pt-1">
+            <a id="receiptMapsAnchor" href="#" target="_blank" rel="noopener noreferrer" class="text-emerald-400 font-semibold underline break-all"></a>
+          </div>
+        </div>
+
+        <div id="receiptItemsBreakdown" class="bg-tc-bg rounded-xl p-4 border border-tc-line space-y-2 text-xs"></div>
+
+        <div class="flex items-center justify-between pt-2 border-t border-tc-line font-display">
+          <span class="text-sm font-bold text-white">TOTAL DEL PEDIDO:</span>
+          <span id="receiptTotal" class="text-xl font-extrabold text-tc-accent">$0.00</span>
+        </div>
+
+        <div id="orderChatPanel" class="bg-tc-surface rounded-2xl p-4 sm:p-5 border border-tc-line space-y-3.5">
+          <div class="flex items-center justify-between gap-2 pb-2.5 border-b border-tc-line">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+              <h4 class="font-display text-sm sm:text-base font-bold text-white">
+                Chat del Pedido en Vivo
+              </h4>
+            </div>
+            <span id="chatStatusBadge" class="text-[11px] font-semibold text-emerald-400">
+              ● Canal abierto
+            </span>
+          </div>
+
+          <div id="chatMessagesList" class="max-h-56 overflow-y-auto space-y-2.5 pr-1 text-xs">
+            <p class="text-tc-muted text-center py-3">
+              ¿Necesitas agregar una salsa o dar una referencia de tu puerta? Escribe aquí a cocina/reparto.
+            </p>
+          </div>
+
+          <form id="orderChatForm" class="flex items-center gap-2 pt-1">
+            <label for="chatMessageInput" class="sr-only">Escribe un mensaje para el pedido</label>
+            <input id="chatMessageInput" type="text" placeholder="Escribe un mensaje sobre tu pedido..."
+              class="flex-1 text-xs sm:text-sm text-white bg-tc-bg border border-tc-line rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-tc-accent" />
+            <button id="sendChatMessageBtn" type="submit"
+              class="font-display px-4 py-2.5 rounded-xl bg-tc-accent hover:bg-tc-accentHover text-white text-xs font-bold transition cursor-pointer shrink-0">
+              Enviar
+            </button>
+          </form>
+        </div>
+
+        <div class="pt-1 flex justify-end">
+          <button type="button" id="newOrderResetBtn"
+            class="font-display px-5 py-2.5 rounded-xl bg-tc-accent hover:bg-tc-accentHover text-white text-xs font-semibold transition cursor-pointer">
+            + Hacer otro pedido
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ========================================================================
+       6. FOOTER + FIRMA PRO. ACNES DIGITAL
+       ======================================================================== -->
+  <footer class="bg-tc-surface/95 border-t border-tc-line mt-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-8 py-10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-tc-muted">
+      <div>
+        <strong class="font-display text-sm tracking-[0.12em] text-white">TACOS CLOUD</strong>
+        <span class="mx-2 text-white/20">·</span>
+        <span>© 2026 Red de Taquerías Afiliadas.</span>
+      </div>
+      <p class="font-display tracking-wider text-[#B8BEC8]">
+        Pro. <span class="text-tc-accent font-semibold">ACNES Digital</span>
+      </p>
+    </div>
+  </footer>
+
+  <!-- ========================================================================
+       SCRIPT MÓDULO ES6: TAQUERÍAS AFILIADAS (AKE TACOS CP 57180) + CERCANÍA + CHAT
+       ======================================================================== -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      doc,
+      query,
+      orderBy,
+      onSnapshot,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCUeewNCmWsgOFTcpM7RVOg09Eg0mtS-Gs",
+      authDomain: "acnes-clientes.firebaseapp.com",
+      projectId: "acnes-clientes",
+      storageBucket: "acnes-clientes.firebasestorage.app",
+      messagingSenderId: "18765540716",
+      appId: "1:18765540716:web:dbd0a3a17fad87c1315749"
+    };
+
+    const COLLECTION_PEDIDOS = "ake_pedidos";
+    const LOCAL_BACKUP_KEY = "tacos_cloud_pedidos_backup";
+    const LOCAL_CHAT_PREFIX = "tacos_cloud_chat_";
+    const ACTIVE_ORDER_STORAGE_KEY = "tacos_cloud_active_order";
+
+    let db = null;
+    try {
+      const app = initializeApp(firebaseConfig);
+      db = getFirestore(app);
+    } catch (err) {
+      console.warn("Firebase no inicializado:", err);
+    }
+
+    const BASE_AKE_MENU = [
+      {
+        id: "taco-asada",
+        nombre: "Taco de Carne Asada",
+        categoria: "Tacos",
+        precio: 28,
+        descripcion: "Tortilla de maíz, carne asada al carbón, cilantro y cebolla.",
+        fotoUrl: ""
+      },
+      {
+        id: "taco-adobada",
+        nombre: "Taco al Pastor / Adobada",
+        categoria: "Tacos",
+        precio: 26,
+        descripcion: "Marinada tradicional con chile guajillo y especias, servida con piña.",
+        fotoUrl: ""
+      },
+      {
+        id: "taco-suadero",
+        nombre: "Taco de Suadero",
+        categoria: "Tacos",
+        precio: 28,
+        descripcion: "Corte jugoso cocinado lentamente para lograr textura suave y dorada.",
+        fotoUrl: ""
+      },
+      {
+        id: "esp-quesataco",
+        nombre: "Quesataco Especial",
+        categoria: "Especialidades",
+        precio: 46,
+        descripcion: "Tortilla con costra de queso fundido, proteína a elegir y salsas de la casa.",
+        fotoUrl: ""
+      },
+      {
+        id: "esp-gringa",
+        nombre: "Gringa AKE",
+        categoria: "Especialidades",
+        precio: 52,
+        descripcion: "Tortilla de harina grande, queso manchego derretido y carne al gusto.",
+        fotoUrl: ""
+      },
+      {
+        id: "beb-agua-fresca",
+        nombre: "Agua Fresca del Día (500 ml)",
+        categoria: "Bebidas",
+        precio: 25,
+        descripcion: "Preparada al día, bien fría para acompañar tus tacos.",
+        fotoUrl: ""
+      }
+    ];
+
+    // Catálogo de taquerías afiliadas (AKE Tacos CP 57180 como sucursal fundadora + slots listos para afiliar más)
+    const TAQUERIAS_AFILIADAS = [
+      {
+        id: "ake-tacos-57180",
+        nombre: "AKE Tacos",
+        cp: "57180",
+        zona: "Sucursal Fundadora · CP 57180",
+        lat: 19.4036,
+        lng: -99.0148,
+        destacada: true,
+        menu: BASE_AKE_MENU
+      },
+      {
+        id: "afiliada-proxima-1",
+        nombre: "Taquería Afiliada #2 (Próximamente)",
+        cp: "57200",
+        zona: "Zona Oriente · Próxima afiliación",
+        lat: 19.4120,
+        lng: -99.0050,
+        destacada: false,
+        menu: BASE_AKE_MENU.map((m) => ({ ...m, id: `af2-${m.id}` }))
+      },
+      {
+        id: "afiliada-proxima-2",
+        nombre: "Taquería Afiliada #3 (Próximamente)",
+        cp: "57000",
+        zona: "Zona Centro · Próxima afiliación",
+        lat: 19.4005,
+        lng: -99.0195,
+        destacada: false,
+        menu: BASE_AKE_MENU.map((m) => ({ ...m, id: `af3-${m.id}` }))
+      }
+    ];
+
+    const ESTADOS_CONFIG = {
+      Recibido: {
+        titulo: "Pedido recibido en cocina",
+        descripcion: "Tu orden ya ingresó a TACOS CLOUD. Pronto comenzará su preparación."
+      },
+      Preparando: {
+        titulo: "Tu pedido se está preparando",
+        descripcion: "Estamos cortando al trompo, dorando y armando tus platillos al momento."
+      },
+      "En camino": {
+        titulo: "Tu pedido va en camino / listo para entrega",
+        descripcion: "Ya salió de cocina rumbo a tu ubicación o está listo para recoger en local."
+      },
+      Entregado: {
+        titulo: "¡Pedido entregado!",
+        descripcion: "Gracias por ordenar en TACOS CLOUD. ¡Buen provecho!"
+      }
+    };
+
+    let selectedTaqueriaId = TAQUERIAS_AFILIADAS[0].id;
+    let distancesByTaqueriaId = new Map();
+    let nearestTaqueriaId = TAQUERIAS_AFILIADAS[0].id;
+
+    const orderCart = new Map();
+    let activeCategoryFilter = "ALL";
+    let capturedLocation = null;
+    let unsubscribeOrderStatus = null;
+    let unsubscribeOrderChat = null;
+    let currentActiveOrderKey = null;
+    let currentFirestoreOrderId = null;
+    let isOrderClosed = false;
+
+    const formatMoney = (val) =>
+      "$" + Number(val || 0).toLocaleString("es-MX", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+    function escapeHtml(str) {
+      return String(str ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function getSelectedTaqueria() {
+      return TAQUERIAS_AFILIADAS.find((t) => t.id === selectedTaqueriaId) || TAQUERIAS_AFILIADAS[0];
+    }
+
+    function haversineKm(lat1, lng1, lat2, lng2) {
+      const toRad = (deg) => (deg * Math.PI) / 180;
+      const R = 6371;
+      const dLat = toRad(lat2 - lat1);
+      const dLng = toRad(lng2 - lng1);
+      const a =
+        Math.sin(dLat / 2) ** 2 +
+        Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng / 2) ** 2;
+      return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    }
+
+    function computeDistancesFromCp(cpString) {
+      const cleanCp = String(cpString || "").replace(/\D/g, "");
+      if (!cleanCp) {
+        distancesByTaqueriaId.clear();
+        nearestTaqueriaId = "ake-tacos-57180";
+        selectedTaqueriaId = nearestTaqueriaId;
+        return;
+      }
+
+      const targetNum = Number(cleanCp);
+      let bestId = TAQUERIAS_AFILIADAS[0].id;
+      let bestScore = Infinity;
+
+      for (const t of TAQUERIAS_AFILIADAS) {
+        const diff = Math.abs(Number(t.cp) - targetNum);
+        const approxKm = Number((diff * 0.25).toFixed(1));
+        distancesByTaqueriaId.set(t.id, approxKm);
+        if (diff < bestScore) {
+          bestScore = diff;
+          bestId = t.id;
+        }
+      }
+
+      nearestTaqueriaId = bestId;
+      selectedTaqueriaId = bestId;
+    }
+
+    function computeDistancesFromCoords(lat, lng) {
+      let bestId = TAQUERIAS_AFILIADAS[0].id;
+      let bestKm = Infinity;
+
+      for (const t of TAQUERIAS_AFILIADAS) {
+        const km = Number(haversineKm(lat, lng, t.lat, t.lng).toFixed(1));
+        distancesByTaqueriaId.set(t.id, km);
+        if (km < bestKm) {
+          bestKm = km;
+          bestId = t.id;
+        }
+      }
+
+      nearestTaqueriaId = bestId;
+      selectedTaqueriaId = bestId;
+    }
+
+    function syncBranchLabels() {
+      const branch = getSelectedTaqueria();
+      const km = distancesByTaqueriaId.get(branch.id);
+
+      document.getElementById("heroSelectedCpBadge").textContent = `CP ${branch.cp}`;
+      document.getElementById("heroSelectedTaqueriaName").textContent = branch.nombre;
+      document.getElementById("heroSelectedTaqueriaMeta").textContent = `${branch.zona} · Código Postal ${branch.cp}`;
+      document.getElementById("heroDistanceLabel").textContent =
+        typeof km === "number" ? `${km} km aprox.` : "Sucursal principal (CP 57180)";
+
+      document.getElementById("menuActiveBranchTag").textContent = `Carta de ${branch.nombre} · CP ${branch.cp}`;
+      document.getElementById("menuActiveBranchTitle").textContent = `Menú de ${branch.nombre}`;
+      document.getElementById("formBranchSummary").textContent = `${branch.nombre} (CP ${branch.cp})`;
+    }
+
+    function renderTaqueriasGrid() {
+      const grid = document.getElementById("taqueriasGrid");
+      grid.innerHTML = TAQUERIAS_AFILIADAS.map((t) => {
+        const isSelected = t.id === selectedTaqueriaId;
+        const isNearest = t.id === nearestTaqueriaId;
+        const km = distancesByTaqueriaId.get(t.id);
+
+        return `
+          <article class="bg-tc-panel/95 backdrop-blur-sm rounded-2xl p-5 border ${
+            isSelected ? "border-tc-accent" : "border-tc-line"
+          } flex flex-col justify-between gap-4 transition">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between gap-2">
+                <span class="font-display text-xs font-bold uppercase tracking-wider text-tc-maiz">
+                  CP ${escapeHtml(t.cp)}
+                </span>
+                ${
+                  isNearest
+                    ? `<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/35">
+                         ★ Más cercana
+                       </span>`
+                    : `<span class="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-tc-bg text-tc-muted border border-tc-line">
+                         Afiliada
+                       </span>`
+                }
+              </div>
+
+              <h3 class="font-display text-xl font-bold text-white">${escapeHtml(t.nombre)}</h3>
+              <p class="text-xs text-tc-muted">${escapeHtml(t.zona)}</p>
+              ${
+                typeof km === "number"
+                  ? `<p class="text-xs font-semibold text-emerald-400">Distancia estimada: ${km} km</p>`
+                  : ""
+              }
+            </div>
+
+            <button type="button" data-select-taqueria="${escapeHtml(t.id)}"
+              class="font-display w-full py-2.5 px-4 rounded-xl text-xs font-bold transition cursor-pointer ${
+                isSelected
+                  ? "bg-tc-accent text-white"
+                  : "bg-tc-bg hover:bg-[#1C1F27] text-[#E5E7EB] border border-tc-line"
+              }">
+              ${isSelected ? "✓ Seleccionada para pedir" : "Pedir en esta taquería"}
+            </button>
+          </article>
+        `;
+      }).join("");
+
+      grid.querySelectorAll("[data-select-taqueria]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const nextId = btn.dataset.selectTaqueria;
+          if (nextId !== selectedTaqueriaId) {
+            selectedTaqueriaId = nextId;
+            orderCart.clear();
+            syncBranchLabels();
+            renderTaqueriasGrid();
+            renderMenuGrid();
+            renderOrderSummary();
+          }
+        });
+      });
+    }
+
+    document.getElementById("btnCalcularPorCp").addEventListener("click", () => {
+      const cpVal = document.getElementById("userCpInput").value.trim();
+      computeDistancesFromCp(cpVal);
+      orderCart.clear();
+      syncBranchLabels();
+      renderTaqueriasGrid();
+      renderMenuGrid();
+      renderOrderSummary();
+    });
+
+    document.getElementById("btnDetectarGpsCercana").addEventListener("click", () => {
+      if (!("geolocation" in navigator)) return;
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          computeDistancesFromCoords(pos.coords.latitude, pos.coords.longitude);
+          orderCart.clear();
+          syncBranchLabels();
+          renderTaqueriasGrid();
+          renderMenuGrid();
+          renderOrderSummary();
+        },
+        () => {
+          // Si se niega el GPS, se mantiene AKE Tacos CP 57180 como sucursal base
+        },
+        { enableHighAccuracy: true, timeout: 8000 }
+      );
+    });
+
+    function saveActiveOrderSession(sessionObj) {
+      try {
+        localStorage.setItem(ACTIVE_ORDER_STORAGE_KEY, JSON.stringify(sessionObj));
+      } catch {
+        // Sin acción
+      }
+    }
+
+    function readActiveOrderSession() {
+      try {
+        const raw = localStorage.getItem(ACTIVE_ORDER_STORAGE_KEY);
+        return raw ? JSON.parse(raw) : null;
+      } catch {
+        return null;
+      }
+    }
+
+    function clearActiveOrderSession() {
+      try {
+        localStorage.removeItem(ACTIVE_ORDER_STORAGE_KEY);
+      } catch {
+        // Sin acción
+      }
+    }
+
+    function renderMenuGrid() {
+      const branch = getSelectedTaqueria();
+      const grid = document.getElementById("menuGrid");
+      const items = branch.menu.filter(
+        (item) => activeCategoryFilter === "ALL" || item.categoria === activeCategoryFilter
+      );
+
+      grid.innerHTML = items
+        .map((item) => {
+          const inCart = orderCart.get(item.id);
+          const qty = inCart ? inCart.qty : 0;
+
+          const mediaBlock = item.fotoUrl
+            ? `<div class="w-full h-40 rounded-xl overflow-hidden mb-4 bg-tc-bg border border-tc-line">
+                 <img src="${escapeHtml(item.fotoUrl)}" alt="${escapeHtml(item.nombre)}" class="w-full h-full object-cover" />
+               </div>`
+            : `<div class="photo-slot-placeholder w-full h-36 rounded-xl mb-4 bg-tc-bg/90 border border-dashed border-tc-line flex flex-col items-center justify-center text-center px-3">
+                 <span class="font-display text-[11px] font-semibold uppercase tracking-wider text-tc-maiz">Espacio reservado para foto</span>
+                 <span class="text-[11px] text-tc-muted mt-0.5">${escapeHtml(item.categoria)}</span>
+               </div>`;
+
+          return `
+            <article class="bg-tc-panel/95 backdrop-blur-sm rounded-2xl p-5 border border-tc-line hover:border-tc-accent/70 transition flex flex-col justify-between">
+              <div>
+                ${mediaBlock}
+                <div class="flex items-start justify-between gap-2">
+                  <h3 class="font-display text-lg font-bold text-white">${escapeHtml(item.nombre)}</h3>
+                  <span class="font-display text-base font-extrabold text-tc-accent shrink-0">${formatMoney(item.precio)}</span>
+                </div>
+                <p class="text-xs sm:text-sm text-tc-muted mt-1.5 leading-relaxed">${escapeHtml(item.descripcion)}</p>
+              </div>
+
+              <div class="mt-5 pt-3.5 border-t border-tc-line flex items-center justify-between gap-2">
+                <span class="text-xs text-tc-muted">
+                  ${qty > 0 ? `En pedido: <strong class="text-white">${qty}</strong>` : "Listo para agregar"}
+                </span>
+                <button type="button" data-add-menu-item="${escapeHtml(item.id)}"
+                  class="add-menu-btn font-display px-4 py-2 rounded-xl bg-tc-accent hover:bg-tc-accentHover text-white text-xs font-semibold transition cursor-pointer">
+                  ${qty > 0 ? "+ Agregar otro" : "+ Agregar al pedido"}
+                </button>
+              </div>
+            </article>
+          `;
+        })
+        .join("");
+
+      grid.querySelectorAll("[data-add-menu-item]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const item = branch.menu.find((m) => m.id === btn.dataset.addMenuItem);
+          if (!item) return;
+          const existing = orderCart.get(item.id);
+          if (existing) {
+            existing.qty += 1;
+          } else {
+            orderCart.set(item.id, { ...item, qty: 1 });
+          }
+          renderMenuGrid();
+          renderOrderSummary();
+        });
+      });
+    }
+
+    function renderOrderSummary() {
+      const listEl = document.getElementById("orderItemsList");
+      const countLabel = document.getElementById("orderItemsCountLabel");
+      const badgeEl = document.getElementById("headerOrderBadge");
+      const subtotalEl = document.getElementById("orderSubtotalText");
+      const totalEl = document.getElementById("orderTotalText");
+
+      const entries = Array.from(orderCart.values());
+      const totalUnits = entries.reduce((acc, it) => acc + it.qty, 0);
+      const subtotal = entries.reduce((acc, it) => acc + it.qty * it.precio, 0);
+
+      badgeEl.textContent = String(totalUnits);
+      countLabel.textContent = `${totalUnits} ${totalUnits === 1 ? "producto" : "productos"}`;
+      subtotalEl.textContent = formatMoney(subtotal);
+      totalEl.textContent = formatMoney(subtotal);
+
+      if (entries.length === 0) {
+        listEl.innerHTML = `
+          <div class="rounded-xl border border-dashed border-tc-line bg-tc-bg/70 p-6 text-center text-xs text-tc-muted">
+            Aún no has agregado platillos del menú. Haz clic en <strong class="text-white">"+ Agregar al pedido"</strong> en cualquier tarjeta de arriba.
+          </div>
+        `;
+        return;
+      }
+
+      listEl.innerHTML = entries
+        .map(
+          (it) => `
+          <div class="flex items-center justify-between gap-3 bg-tc-bg rounded-xl p-3.5 border border-tc-line">
+            <div class="min-w-0">
+              <p class="font-display text-sm font-bold text-white truncate">${escapeHtml(it.nombre)}</p>
+              <p class="text-xs text-tc-muted">${formatMoney(it.precio)} c/u · Subtotal: <strong class="text-[#E5E7EB]">${formatMoney(it.precio * it.qty)}</strong></p>
+            </div>
+            <div class="flex items-center gap-1.5 shrink-0">
+              <button type="button" data-qty-minus="${escapeHtml(it.id)}" aria-label="Restar cantidad"
+                class="w-7 h-7 rounded-lg bg-tc-panel hover:bg-tc-line text-white text-xs font-bold border border-tc-line cursor-pointer">−</button>
+              <span class="w-6 text-center text-xs font-bold text-white">${it.qty}</span>
+              <button type="button" data-qty-plus="${escapeHtml(it.id)}" aria-label="Sumar cantidad"
+                class="w-7 h-7 rounded-lg bg-tc-panel hover:bg-tc-line text-white text-xs font-bold border border-tc-line cursor-pointer">+</button>
+              <button type="button" data-qty-remove="${escapeHtml(it.id)}" aria-label="Quitar platillo"
+                class="w-7 h-7 rounded-lg bg-[#2A1414] hover:bg-[#7F1D1D] text-[#FCA5A5] text-xs font-bold border border-[#7F1D1D]/50 cursor-pointer">✕</button>
+            </div>
+          </div>
+        `
+        )
+        .join("");
+
+      listEl.querySelectorAll("[data-qty-minus]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const it = orderCart.get(btn.dataset.qtyMinus);
+          if (!it) return;
+          if (it.qty > 1) it.qty -= 1;
+          else orderCart.delete(it.id);
+          renderMenuGrid();
+          renderOrderSummary();
+        });
+      });
+
+      listEl.querySelectorAll("[data-qty-plus]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const it = orderCart.get(btn.dataset.qtyPlus);
+          if (!it) return;
+          it.qty += 1;
+          renderMenuGrid();
+          renderOrderSummary();
+        });
+      });
+
+      listEl.querySelectorAll("[data-qty-remove]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          orderCart.delete(btn.dataset.qtyRemove);
+          renderMenuGrid();
+          renderOrderSummary();
+        });
+      });
+    }
+
+    const clienteTelefonoInput = document.getElementById("clienteTelefonoInput");
+    clienteTelefonoInput.addEventListener("input", () => {
+      clienteTelefonoInput.value = clienteTelefonoInput.value.replace(/\D/g, "").slice(0, 10);
+    });
+
+    const btnObtenerUbicacion = document.getElementById("btnObtenerUbicacion");
+    const btnUbicacionLabel = document.getElementById("btnUbicacionLabel");
+    const ubicacionCapturadaBox = document.getElementById("ubicacionCapturadaBox");
+    const ubicacionMapsLink = document.getElementById("ubicacionMapsLink");
+    const btnQuitarUbicacion = document.getElementById("btnQuitarUbicacion");
+
+    function clearCapturedLocation() {
+      capturedLocation = null;
+      ubicacionCapturadaBox.classList.add("hidden");
+      ubicacionMapsLink.href = "#";
+      btnUbicacionLabel.textContent = "Adjuntar ubicación GPS";
+    }
+
+    btnObtenerUbicacion.addEventListener("click", () => {
+      hidePedidoError();
+      if (!("geolocation" in navigator)) {
+        showPedidoError("Tu navegador no soporta ubicación GPS. Escribe tu dirección completa.");
+        return;
+      }
+
+      btnObtenerUbicacion.disabled = true;
+      btnUbicacionLabel.textContent = "Obteniendo GPS...";
+
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const lat = Number(pos.coords.latitude.toFixed(6));
+          const lng = Number(pos.coords.longitude.toFixed(6));
+          const mapsUrl = `https://maps.google.com/?q=${lat},${lng}`;
+
+          capturedLocation = {
+            lat,
+            lng,
+            mapsUrl,
+            accuracy: Math.round(pos.coords.accuracy || 0)
+          };
+
+          ubicacionMapsLink.href = mapsUrl;
+          ubicacionMapsLink.textContent = `https://maps.google.com/?q=${lat},${lng}`;
+          ubicacionCapturadaBox.classList.remove("hidden");
+
+          btnObtenerUbicacion.disabled = false;
+          btnUbicacionLabel.textContent = "Actualizar ubicación GPS";
+        },
+        (err) => {
+          btnObtenerUbicacion.disabled = false;
+          btnUbicacionLabel.textContent = "Adjuntar ubicación GPS";
+          if (err.code === 1) {
+            showPedidoError("Permiso de ubicación denegado. Asegúrate de escribir tu dirección completa.");
+          } else {
+            showPedidoError("No se pudo obtener tu ubicación GPS. Asegúrate de escribir tu dirección completa.");
+          }
+        },
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+      );
+    });
+
+    btnQuitarUbicacion.addEventListener("click", clearCapturedLocation);
+
+    document.querySelectorAll(".menu-filter-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        activeCategoryFilter = btn.dataset.menuFilter;
+        document.querySelectorAll(".menu-filter-btn").forEach((b) => {
+          b.classList.remove("bg-tc-accent", "text-white", "font-semibold");
+          b.classList.add("bg-tc-panel/90", "text-[#D1D5DB]", "border", "border-tc-line", "font-medium");
+        });
+        btn.classList.remove("bg-tc-panel/90", "text-[#D1D5DB]", "border", "border-tc-line", "font-medium");
+        btn.classList.add("bg-tc-accent", "text-white", "font-semibold");
+        renderMenuGrid();
+      });
+    });
+
+    function setChatAvailability(estadoActual) {
+      const chatInput = document.getElementById("chatMessageInput");
+      const chatBtn = document.getElementById("sendChatMessageBtn");
+      const badge = document.getElementById("chatStatusBadge");
+
+      isOrderClosed = estadoActual === "Entregado";
+
+      if (isOrderClosed) {
+        chatInput.disabled = true;
+        chatBtn.disabled = true;
+        chatInput.placeholder = "Pedido entregado — chat finalizado";
+        badge.textContent = "● Cerrado";
+        badge.className = "text-[11px] font-semibold text-tc-muted";
+      } else {
+        chatInput.disabled = false;
+        chatBtn.disabled = false;
+        chatInput.placeholder = "Escribe un mensaje sobre tu pedido...";
+        badge.textContent = "● Canal abierto";
+        badge.className = "text-[11px] font-semibold text-emerald-400";
+      }
+    }
+
+    const ordenEstados = ["Recibido", "Preparando", "En camino", "Entregado"];
+
+    function applyOrderStatusView(estadoActual) {
+      const estadoValido = ESTADOS_CONFIG[estadoActual] ? estadoActual : "Recibido";
+      const cfg = ESTADOS_CONFIG[estadoValido];
+      const activeIdx = ordenEstados.indexOf(estadoValido);
+
+      document.getElementById("estadoBadgePill").textContent = `● ${estadoValido}`;
+      document.getElementById("estadoTituloTexto").textContent = cfg.titulo;
+      document.getElementById("estadoDescripcionTexto").textContent = cfg.descripcion;
+
+      document.querySelectorAll(".status-step-card").forEach((card, idx) => {
+        const titleEl = card.querySelector("span:first-child");
+        const subEl = card.querySelector("span:last-child");
+        if (idx <= activeIdx) {
+          card.classList.remove("border-tc-line", "bg-tc-bg");
+          card.classList.add("border-tc-accent", "bg-tc-accentSoft");
+          if (titleEl) {
+            titleEl.classList.remove("text-tc-muted");
+            titleEl.classList.add("text-white");
+          }
+          if (subEl) {
+            subEl.classList.remove("text-tc-muted");
+            subEl.classList.add("text-[#E5E7EB]");
+          }
+        } else {
+          card.classList.remove("border-tc-accent", "bg-tc-accentSoft");
+          card.classList.add("border-tc-line", "bg-tc-bg");
+          if (titleEl) {
+            titleEl.classList.remove("text-white");
+            titleEl.classList.add("text-tc-muted");
+          }
+          if (subEl) {
+            subEl.classList.remove("text-[#E5E7EB]");
+            subEl.classList.add("text-tc-muted");
+          }
+        }
+      });
+
+      const saved = readActiveOrderSession();
+      if (saved) {
+        saveActiveOrderSession({ ...saved, estado: estadoValido });
+      }
+
+      setChatAvailability(estadoValido);
+    }
+
+    function renderChatMessages(messages) {
+      const listEl = document.getElementById("chatMessagesList");
+      if (!Array.isArray(messages) || messages.length === 0) {
+        listEl.innerHTML = `
+          <p class="text-tc-muted text-center py-3">
+            ¿Necesitas agregar una salsa o dar una referencia de tu puerta? Escribe aquí a cocina/reparto.
+          </p>
+        `;
+        return;
+      }
+
+      listEl.innerHTML = messages
+        .map((m) => {
+          const isCliente = m.remitente !== "TACOS CLOUD" && m.rol !== "cloud";
+          return `
+            <div class="flex ${isCliente ? "justify-end" : "justify-start"}">
+              <div class="max-w-[82%] rounded-2xl px-3.5 py-2.5 border ${
+                isCliente
+                  ? "bg-tc-accent/20 border-tc-accent/40 text-white"
+                  : "bg-tc-bg border-tc-line text-[#E5E7EB]"
+              }">
+                <span class="block text-[10px] font-bold uppercase tracking-wider ${
+                  isCliente ? "text-tc-maiz" : "text-emerald-400"
+                } mb-0.5">
+                  ${escapeHtml(m.remitente || (isCliente ? "Tú" : "TACOS CLOUD"))}
+                </span>
+                <p class="text-xs leading-relaxed break-words">${escapeHtml(m.texto || "")}</p>
+              </div>
+            </div>
+          `;
+        })
+        .join("");
+
+      listEl.scrollTop = listEl.scrollHeight;
+    }
+
+    function readLocalChat(orderKey) {
+      try {
+        const raw = localStorage.getItem(LOCAL_CHAT_PREFIX + orderKey);
+        return raw ? JSON.parse(raw) : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function saveLocalChatMessage(orderKey, msgObj) {
+      try {
+        const arr = readLocalChat(orderKey);
+        arr.push({ ...msgObj, creadoEn: new Date().toISOString() });
+        localStorage.setItem(LOCAL_CHAT_PREFIX + orderKey, JSON.stringify(arr.slice(-80)));
+      } catch {
+        // Sin acción
+      }
+      renderChatMessages(readLocalChat(orderKey));
+    }
+
+    function subscribeToOrderChat(firestoreDocId, localKey) {
+      if (unsubscribeOrderChat) {
+        unsubscribeOrderChat();
+        unsubscribeOrderChat = null;
+      }
+
+      renderChatMessages(readLocalChat(localKey));
+
+      if (db && firestoreDocId) {
+        const msgsQuery = query(
+          collection(db, COLLECTION_PEDIDOS, firestoreDocId, "mensajes"),
+          orderBy("creadoEn", "asc")
+        );
+        unsubscribeOrderChat = onSnapshot(
+          msgsQuery,
+          (snap) => {
+            const msgs = [];
+            snap.forEach((d) => msgs.push({ id: d.id, ...d.data() }));
+            if (msgs.length > 0) renderChatMessages(msgs);
+            else renderChatMessages(readLocalChat(localKey));
+          },
+          () => renderChatMessages(readLocalChat(localKey))
+        );
+      }
+    }
+
+    function attachRealtimeOrderStatus(firestoreDocId) {
+      if (unsubscribeOrderStatus) {
+        unsubscribeOrderStatus();
+        unsubscribeOrderStatus = null;
+      }
+      if (db && firestoreDocId) {
+        unsubscribeOrderStatus = onSnapshot(doc(db, COLLECTION_PEDIDOS, firestoreDocId), (snap) => {
+          if (snap.exists()) {
+            const data = snap.data();
+            if (data && data.estado) applyOrderStatusView(data.estado);
+          }
+        });
+      }
+    }
+
+    function mountTrackingView(orderData, shouldScroll = true) {
+      const createdDocId = orderData.firestoreDocId || null;
+      const folio = orderData.folio || "TC-2026-0000";
+
+      currentFirestoreOrderId = createdDocId;
+      currentActiveOrderKey = createdDocId || folio;
+
+      document.getElementById("receiptTaqueriaLabel").textContent =
+        `${orderData.taqueriaNombre || "AKE Tacos"} · CP ${orderData.taqueriaCp || "57180"} · TACOS CLOUD`;
+      document.getElementById("receiptFolio").textContent = folio;
+      document.getElementById("receiptCliente").textContent = orderData.clienteNombre || "";
+      document.getElementById("receiptTelefono").textContent = orderData.clienteTelefono || "";
+      document.getElementById("receiptEntrega").textContent = orderData.tipoEntrega || "Recoger en local";
+      document.getElementById("receiptDireccion").textContent = orderData.direccion || "";
+      document.getElementById("receiptTotal").textContent = formatMoney(orderData.total || 0);
+
+      const receiptUbicacionRow = document.getElementById("receiptUbicacionRow");
+      const receiptMapsAnchor = document.getElementById("receiptMapsAnchor");
+      if (orderData.mapsUrl) {
+        receiptMapsAnchor.href = orderData.mapsUrl;
+        receiptMapsAnchor.textContent = `Ver ubicación GPS: ${orderData.mapsUrl}`;
+        receiptUbicacionRow.classList.remove("hidden");
+      } else {
+        receiptUbicacionRow.classList.add("hidden");
+      }
+
+      const items = Array.isArray(orderData.items) ? orderData.items : [];
+      document.getElementById("receiptItemsBreakdown").innerHTML = items
+        .map(
+          (i) =>
+            `<div class="flex justify-between text-[#E5E7EB]">
+               <span>${Number(i.cantidad || 1)}x ${escapeHtml(i.nombre)}</span>
+               <strong class="text-white">${formatMoney(i.subtotal ?? (i.precio * i.cantidad))}</strong>
+             </div>`
+        )
+        .join("");
+
+      applyOrderStatusView(orderData.estado || "Recibido");
+      attachRealtimeOrderStatus(createdDocId);
+      subscribeToOrderChat(createdDocId, currentActiveOrderKey);
+
+      document.getElementById("orderFormWrapper").classList.add("hidden");
+      document.getElementById("seguimiento").classList.remove("hidden");
+
+      if (shouldScroll) {
+        document.getElementById("seguimiento").scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+
+    document.getElementById("orderChatForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (isOrderClosed || !currentActiveOrderKey) return;
+
+      const inputEl = document.getElementById("chatMessageInput");
+      const texto = inputEl.value.trim();
+      if (!texto) return;
+
+      const clienteNombre = document.getElementById("receiptCliente").textContent || "Cliente";
+      const msgDoc = {
+        remitente: clienteNombre,
+        rol: "cliente",
+        texto,
+        creadoEn: serverTimestamp()
+      };
+
+      inputEl.value = "";
+      saveLocalChatMessage(currentActiveOrderKey, {
+        remitente: clienteNombre,
+        rol: "cliente",
+        texto
+      });
+
+      if (db && currentFirestoreOrderId) {
+        try {
+          await addDoc(
+            collection(db, COLLECTION_PEDIDOS, currentFirestoreOrderId, "mensajes"),
+            msgDoc
+          );
+        } catch {
+          // Ya quedó guardado en respaldo local
+        }
+      }
+    });
+
+    const tacosCloudForm = document.getElementById("tacosCloudForm");
+    const pedidoErrorBox = document.getElementById("pedidoErrorBox");
+    const submitPedidoBtn = document.getElementById("submitPedidoBtn");
+
+    function showPedidoError(msg) {
+      pedidoErrorBox.textContent = msg;
+      pedidoErrorBox.classList.remove("hidden");
+    }
+
+    function hidePedidoError() {
+      pedidoErrorBox.classList.add("hidden");
+      pedidoErrorBox.textContent = "";
+    }
+
+    function saveBackupOrder(payload) {
+      try {
+        const raw = localStorage.getItem(LOCAL_BACKUP_KEY);
+        const arr = raw ? JSON.parse(raw) : [];
+        arr.unshift(payload);
+        localStorage.setItem(LOCAL_BACKUP_KEY, JSON.stringify(arr.slice(0, 100)));
+      } catch {
+        // Sin acción
+      }
+    }
+
+    tacosCloudForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      hidePedidoError();
+
+      const branch = getSelectedTaqueria();
+      const items = Array.from(orderCart.values()).map((it) => ({
+        id: it.id,
+        nombre: it.nombre,
+        categoria: it.categoria,
+        precio: it.precio,
+        cantidad: it.qty,
+        subtotal: it.precio * it.qty
+      }));
+
+      if (items.length === 0) {
+        showPedidoError("Agrega al menos un platillo del menú antes de enviar tu pedido.");
+        return;
+      }
+
+      const clienteNombre = document.getElementById("clienteNombreInput").value.trim();
+      const clienteTelefono = clienteTelefonoInput.value.replace(/\D/g, "");
+      const entregaEl = document.querySelector('input[name="tipoEntrega"]:checked');
+      const tipoEntrega = entregaEl ? entregaEl.value : "Recoger en local";
+      const direccion = document.getElementById("direccionEntregaInput").value.trim();
+      const notas = document.getElementById("notasPedidoInput").value.trim();
+
+      if (!clienteNombre) {
+        showPedidoError("Por favor ingresa tu nombre.");
+        return;
+      }
+
+      if (clienteTelefono.length !== 10) {
+        showPedidoError("El número de teléfono debe tener exactamente 10 dígitos.");
+        return;
+      }
+
+      if (!direccion) {
+        showPedidoError("La dirección de entrega es obligatoria. Escríbela antes de enviar el pedido.");
+        return;
+      }
+
+      const total = items.reduce((acc, i) => acc + i.subtotal, 0);
+      const folio = `TC-2026-${Math.floor(1000 + Math.random() * 9000)}`;
+
+      const pedidoDoc = {
+        folio,
+        plataforma: "TACOS CLOUD",
+        taqueriaId: branch.id,
+        taqueriaNombre: branch.nombre,
+        taqueriaCp: branch.cp,
+        marca: branch.nombre,
+        clienteNombre,
+        clienteTelefono,
+        tipoEntrega,
+        direccion,
+        ubicacionGps: capturedLocation || null,
+        mapsUrl: capturedLocation ? capturedLocation.mapsUrl : "",
+        notas,
+        items,
+        total,
+        estado: "Recibido",
+        fechaCreacion: serverTimestamp()
+      };
+
+      submitPedidoBtn.disabled = true;
+      submitPedidoBtn.innerHTML = `<span>Enviando pedido...</span>`;
+
+      let createdDocId = null;
+      try {
+        if (!db) throw new Error("Firestore no inicializado");
+        const docRef = await addDoc(collection(db, COLLECTION_PEDIDOS), pedidoDoc);
+        createdDocId = docRef.id;
+      } catch {
+        saveBackupOrder({ ...pedidoDoc, fechaCreacion: new Date().toISOString() });
+      }
+
+      submitPedidoBtn.disabled = false;
+      submitPedidoBtn.innerHTML = `<span>Enviar Pedido a TACOS CLOUD</span><span>→</span>`;
+
+      const sessionSnapshot = {
+        folio,
+        firestoreDocId: createdDocId,
+        taqueriaId: branch.id,
+        taqueriaNombre: branch.nombre,
+        taqueriaCp: branch.cp,
+        clienteNombre,
+        clienteTelefono,
+        tipoEntrega,
+        direccion,
+        mapsUrl: capturedLocation ? capturedLocation.mapsUrl : "",
+        items,
+        total,
+        estado: "Recibido"
+      };
+
+      saveActiveOrderSession(sessionSnapshot);
+      mountTrackingView(sessionSnapshot, true);
+    });
+
+    document.getElementById("newOrderResetBtn").addEventListener("click", () => {
+      if (unsubscribeOrderStatus) {
+        unsubscribeOrderStatus();
+        unsubscribeOrderStatus = null;
+      }
+      if (unsubscribeOrderChat) {
+        unsubscribeOrderChat();
+        unsubscribeOrderChat = null;
+      }
+      clearActiveOrderSession();
+      currentActiveOrderKey = null;
+      currentFirestoreOrderId = null;
+      isOrderClosed = false;
+
+      orderCart.clear();
+      tacosCloudForm.reset();
+      clearCapturedLocation();
+      hidePedidoError();
+      renderMenuGrid();
+      renderOrderSummary();
+      document.getElementById("seguimiento").classList.add("hidden");
+      document.getElementById("orderFormWrapper").classList.remove("hidden");
+      document.getElementById("pedido").scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+    computeDistancesFromCp("57180");
+    syncBranchLabels();
+    renderTaqueriasGrid();
+    renderMenuGrid();
+    renderOrderSummary();
+
+    const restoredSession = readActiveOrderSession();
+    if (restoredSession && restoredSession.folio) {
+      mountTrackingView(restoredSession, false);
+    }
+  </script>
+</body>
+</html>
