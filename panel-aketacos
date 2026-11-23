@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel Exclusivo AKE Tacos | TACOS CLOUD</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Outfit + Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['"Outfit"', 'system-ui', 'sans-serif'],
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            tc: {
+              bg: '#080707',
+              surface: '#110E0E',
+              panel: '#181313',
+              line: 'rgba(250, 204, 21, 0.16)',
+              muted: '#B5AEA8',
+              accent: '#E11D2E',
+              accentHover: '#BE1224',
+              accentSoft: 'rgba(225, 29, 46, 0.18)',
+              yellow: '#FACC15',
+              yellowHover: '#EAB308',
+              yellowSoft: 'rgba(250, 204, 21, 0.16)',
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #080707;
+      color: #F7F5F2;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    .tc-pastor-bg {
+      background-image:
+        linear-gradient(180deg, rgba(8, 7, 7, 0.85) 0%, rgba(8, 7, 7, 0.94) 50%, rgba(8, 7, 7, 0.98) 100%),
+        radial-gradient(circle at 18% 12%, rgba(225, 29, 46, 0.22), transparent 55%),
+        radial-gradient(circle at 84% 18%, rgba(250, 204, 21, 0.13), transparent 48%),
+        url("https://cdn.milenio.com/uploads/media/2019/07/24/trompo-pastor-inspirado-trompo-mexicano.jpg");
+      background-size: cover, cover, cover, cover;
+      background-position: center, center, center, center;
+      background-attachment: fixed, scroll, scroll, fixed;
+    }
+  </style>
+</head>
+
+<body class="bg-tc-bg text-[#F7F5F2] tc-pastor-bg antialiased selection:bg-tc-yellow selection:text-black">
+
+  <!-- ========================================================================
+       1. BARRA SUPERIOR STICKY — PANEL EXCLUSIVO AKE TACOS
+       ======================================================================== -->
+  <header class="sticky top-0 z-40 bg-tc-bg/90 backdrop-blur-md border-b border-tc-line">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 h-20 flex items-center justify-between gap-4">
+
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-tc-panel border border-tc-yellow/40 flex items-center justify-center">
+          <svg class="w-5 h-5 text-tc-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M4 15c0-4.5 3.6-8 8-8s8 3.5 8 8H4z" />
+            <line x1="3" y1="18" x2="21" y2="18" stroke="#FACC15" stroke-linecap="round" />
+          </svg>
+        </div>
+        <div>
+          <span class="block font-display text-lg sm:text-xl font-extrabold tracking-[0.14em] text-white leading-none">
+            AKE <span class="text-tc-yellow">TACOS</span> <span class="text-xs font-bold text-tc-muted tracking-normal">· PANEL DE TAQUERÍA</span>
+          </span>
+          <span class="block text-[11px] font-medium tracking-wider text-tc-muted mt-1">
+            Col. Ciudad Lago · CP 57180 · TACOS CLOUD
+          </span>
+        </div>
+      </div>
+
+      <span id="headerAkeStatusPill"
+        class="px-3.5 py-1.5 rounded-full text-xs font-bold border bg-emerald-500/15 text-emerald-300 border-emerald-500/40">
+        ● AKE Tacos Abierta
+      </span>
+
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-8 py-8 space-y-8">
+
+    <!-- ========================================================================
+         2. ENCABEZADO DE AKE TACOS + CONTROL DE OPERACIÓN Y MÉTRICAS
+         ======================================================================== -->
+    <section class="bg-tc-panel/95 backdrop-blur-md rounded-2xl p-6 border border-tc-line space-y-6">
+
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-5 border-b border-tc-line">
+        <div>
+          <span class="font-display text-xs font-bold uppercase tracking-[0.18em] text-tc-yellow">
+            Operación Exclusiva · AKE Tacos (Col. Ciudad Lago · CP 57180)
+          </span>
+          <h1 class="font-display text-2xl sm:text-4xl font-extrabold text-white mt-1">
+            Panel de Órdenes · AKE Tacos
+          </h1>
+          <p class="text-xs sm:text-sm text-tc-muted mt-1">
+            Solo se muestran y gestionan aquí las órdenes de <strong class="text-white">AKE Tacos</strong> para un control claro en cocina y reparto.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2.5 text-xs">
+          <span class="px-3 py-1.5 rounded-xl bg-tc-bg border border-tc-line text-tc-yellow font-bold">
+            ID: ake-tacos-57180
+          </span>
+          <span class="px-3 py-1.5 rounded-xl bg-tc-bg border border-tc-line text-[#E5E2DC] font-semibold">
+            Envío a domicilio
+          </span>
+        </div>
+      </div>
+
+      <!-- Control de Apertura / Cierre y Horario de AKE Tacos -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center bg-tc-bg/90 rounded-xl p-4 border border-tc-line">
+
+        <div class="lg:col-span-5 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <span class="font-display text-xs font-bold uppercase tracking-wider text-tc-muted block">
+              Disponibilidad de AKE Tacos
+            </span>
+            <strong id="akeBranchSummaryLabel" class="font-display text-base font-bold text-white">
+              AKE Tacos · Col. Ciudad Lago · CP 57180
+            </strong>
+          </div>
+          <span id="akeBranchStateBadge"
+            class="px-3 py-1 rounded-full text-xs font-bold border bg-emerald-500/15 text-emerald-300 border-emerald-500/40">
+            ● Abierta para pedidos
+          </span>
+        </div>
+
+        <div class="lg:col-span-4 flex flex-wrap items-center gap-2 text-xs">
+          <label for="akeAbreInput" class="text-tc-muted">Abre:</label>
+          <input id="akeAbreInput" type="time" value="17:00"
+            class="bg-tc-panel text-white border border-tc-line rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:border-tc-yellow" />
+          <label for="akeCierraInput" class="text-tc-muted">Cierra:</label>
+          <input id="akeCierraInput" type="time" value="23:59"
+            class="bg-tc-panel text-white border border-tc-line rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:border-tc-yellow" />
+          <button type="button" id="btnGuardarHorarioAke"
+            class="font-display px-3 py-1.5 rounded-lg bg-tc-yellow hover:bg-tc-yellowHover text-black font-extrabold text-xs transition cursor-pointer">
+            Guardar horario
+          </button>
+        </div>
+
+        <div class="lg:col-span-3 flex lg:justify-end">
+          <button type="button" id="btnToggleCierreAke"
+            class="font-display w-full lg:w-auto px-4 py-2 rounded-xl bg-tc-accent hover:bg-tc-accentHover text-white text-xs font-extrabold border border-tc-yellow/35 transition cursor-pointer">
+            Cerrar taquería temporalmente
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Métricas de AKE Tacos -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div class="bg-tc-surface rounded-xl p-4 border border-tc-line">
+          <span class="text-[11px] font-bold uppercase tracking-wider text-tc-muted block">Órdenes Activas</span>
+          <strong id="akeMetricActivas" class="font-display text-2xl sm:text-3xl font-extrabold text-tc-yellow mt-1 block">0</strong>
+        </div>
+        <div class="bg-tc-surface rounded-xl p-4 border border-tc-line">
+          <span class="text-[11px] font-bold uppercase tracking-wider text-tc-muted block">Recibidas / Preparando</span>
+          <strong id="akeMetricCocina" class="font-display text-2xl sm:text-3xl font-extrabold text-white mt-1 block">0</strong>
+        </div>
+        <div class="bg-tc-surface rounded-xl p-4 border border-tc-line">
+          <span class="text-[11px] font-bold uppercase tracking-wider text-tc-muted block">En Camino</span>
+          <strong id="akeMetricCamino" class="font-display text-2xl sm:text-3xl font-extrabold text-tc-accent mt-1 block">0</strong>
+        </div>
+        <div class="bg-tc-surface rounded-xl p-4 border border-tc-line">
+          <span class="text-[11px] font-bold uppercase tracking-wider text-tc-muted block">Entregadas (Historial)</span>
+          <strong id="akeMetricEntregadas" class="font-display text-2xl sm:text-3xl font-extrabold text-emerald-400 mt-1 block">0</strong>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========================================================================
+         3. FILTROS DE ESTADO + ÓRDENES EXCLUSIVAS DE AKE TACOS
+         ======================================================================== -->
+    <section class="space-y-5">
+
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-tc-line">
+        <div>
+          <h2 class="font-display text-2xl sm:text-3xl font-bold text-white">
+            Órdenes de AKE Tacos
+          </h2>
+          <p class="text-xs sm:text-sm text-tc-muted mt-0.5">
+            Gestiona preparación, ruta de entrega y mensajes directos con cada cliente de AKE Tacos.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap gap-2" role="group" aria-label="Filtrar órdenes de AKE Tacos por estado">
+          <button type="button" data-ake-filter="ALL"
+            class="ake-filter-btn font-display px-3.5 py-2 rounded-xl text-xs font-bold bg-tc-accent text-white border border-tc-yellow/40 transition cursor-pointer">
+            Todas activas
+          </button>
+          <button type="button" data-ake-filter="Recibido"
+            class="ake-filter-btn font-display px-3.5 py-2 rounded-xl text-xs font-medium bg-tc-panel text-[#E5E2DC] border border-tc-line hover:border-tc-yellow transition cursor-pointer">
+            Recibido
+          </button>
+          <button type="button" data-ake-filter="Preparando"
+            class="ake-filter-btn font-display px-3.5 py-2 rounded-xl text-xs font-medium bg-tc-panel text-[#E5E2DC] border border-tc-line hover:border-tc-yellow transition cursor-pointer">
+            Preparando
+          </button>
+          <button type="button" data-ake-filter="En camino"
+            class="ake-filter-btn font-display px-3.5 py-2 rounded-xl text-xs font-medium bg-tc-panel text-[#E5E2DC] border border-tc-line hover:border-tc-yellow transition cursor-pointer">
+            En camino
+          </button>
+        </div>
+      </div>
+
+      <div id="akeOrdersContainer" class="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
+
+    </section>
+
+    <!-- ========================================================================
+         4. HISTORIAL DE ENTREGADOS DE AKE TACOS (ÚLTIMAS 50)
+         ======================================================================== -->
+    <section class="bg-tc-surface/95 backdrop-blur-sm rounded-2xl p-6 border border-tc-line space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-tc-line">
+        <div>
+          <span class="font-display text-xs font-bold uppercase tracking-widest text-tc-yellow">
+            Registro de Taquería
+          </span>
+          <h3 class="font-display text-xl sm:text-2xl font-bold text-white mt-0.5">
+            Historial de Entregados · AKE Tacos (Últimas 50)
+          </h3>
+        </div>
+        <span id="akeDeliveredBadge" class="text-xs font-bold text-emerald-400">
+          0 órdenes entregadas
+        </span>
+      </div>
+
+      <div id="akeDeliveredList" class="space-y-3 text-xs"></div>
+    </section>
+
+  </main>
+
+  <!-- ========================================================================
+       5. FOOTER + FIRMA PRO. ACNES DIGITAL
+       ======================================================================== -->
+  <footer class="bg-tc-surface/95 border-t border-tc-line mt-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-tc-muted">
+      <div>
+        <strong class="font-display text-sm tracking-[0.12em] text-white">AKE <span class="text-tc-yellow">TACOS</span></strong>
+        <span class="mx-2 text-white/20">·</span>
+        <span>TACOS CLOUD · Col. Ciudad Lago · CP 57180</span>
+      </div>
+      <p class="font-display tracking-wider text-[#D6D1C9]">
+        Pro. <span class="text-tc-yellow font-semibold">ACNES Digital</span>
+      </p>
+    </div>
+  </footer>
+
+  <!-- ========================================================================
+       SCRIPT MÓDULO ES6: PANEL EXCLUSIVO DE AKE TACOS
+       ======================================================================== -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      doc,
+      updateDoc,
+      setDoc,
+      query,
+      orderBy,
+      onSnapshot,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCUeewNCmWsgOFTcpM7RVOg09Eg0mtS-Gs",
+      authDomain: "acnes-clientes.firebaseapp.com",
+      projectId: "acnes-clientes",
+      storageBucket: "acnes-clientes.firebasestorage.app",
+      messagingSenderId: "18765540716",
+      appId: "1:18765540716:web:dbd0a3a17fad87c1315749"
+    };
+
+    const COLLECTION_PEDIDOS = "ake_pedidos";
+    const COLLECTION_TAQUERIAS = "tacos_cloud_taquerias";
+    const LOCAL_BACKUP_KEY = "tacos_cloud_pedidos_backup";
+    const LOCAL_CHAT_PREFIX = "tacos_cloud_chat_";
+    const TAQUERIAS_STATE_KEY = "tacos_cloud_taquerias_state";
+
+    const AKE_BRANCH_ID = "ake-tacos-57180";
+    const ESTADOS_FLUJO = ["Recibido", "Preparando", "En camino", "Entregado"];
+
+    let db = null;
+    try {
+      const app = initializeApp(firebaseConfig);
+      db = getFirestore(app);
+    } catch (err) {
+      console.warn("Firebase no inicializado:", err);
+    }
+
+    const akeConfig = {
+      id: AKE_BRANCH_ID,
+      nombre: "AKE Tacos",
+      colonia: "Col. Ciudad Lago",
+      cp: "57180",
+      cerradaManualmente: false,
+      horario: {
+        abre: "17:00",
+        cierra: "23:59",
+        dias: [1, 2, 3, 4, 5, 6, 0]
+      }
+    };
+
+    let akeFilter = "ALL";
+    let akeOrders = [];
+    const chatListenersByDocId = new Map();
+    const chatMessagesByOrderKey = new Map();
+
+    const formatMoney = (val) =>
+      "$" + Number(val || 0).toLocaleString("es-MX", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+    function escapeHtml(str) {
+      return String(str ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function belongsToAkeTacos(order) {
+      if (!order) return false;
+      const byId = order.taqueriaId === AKE_BRANCH_ID;
+      const byName = String(order.taqueriaNombre || order.marca || "").trim().toLowerCase() === "ake tacos";
+      return byId || byName;
+    }
+
+    function mergeLocalAkeConfig() {
+      try {
+        const raw = localStorage.getItem(TAQUERIAS_STATE_KEY);
+        if (!raw) return;
+        const arr = JSON.parse(raw);
+        if (!Array.isArray(arr)) return;
+        const saved = arr.find((t) => t.id === AKE_BRANCH_ID);
+        if (saved) {
+          if (typeof saved.cerradaManualmente === "boolean") {
+            akeConfig.cerradaManualmente = saved.cerradaManualmente;
+          }
+          if (saved.horario) {
+            akeConfig.horario = saved.horario;
+          }
+        }
+      } catch {
+        // Sin acción
+      }
+    }
+
+    function saveLocalAkeConfig() {
+      try {
+        const raw = localStorage.getItem(TAQUERIAS_STATE_KEY);
+        const arr = raw ? JSON.parse(raw) : [];
+        const list = Array.isArray(arr) ? arr : [];
+        const idx = list.findIndex((t) => t.id === AKE_BRANCH_ID);
+        if (idx !== -1) list[idx] = { ...list[idx], ...akeConfig };
+        else list.push({ ...akeConfig });
+        localStorage.setItem(TAQUERIAS_STATE_KEY, JSON.stringify(list));
+      } catch {
+        // Sin acción
+      }
+    }
+
+    function syncAkeBranchUi() {
+      document.getElementById("akeAbreInput").value = akeConfig.horario?.abre || "17:00";
+      document.getElementById("akeCierraInput").value = akeConfig.horario?.cierra || "23:59";
+
+      const badge = document.getElementById("akeBranchStateBadge");
+      const headerPill = document.getElementById("headerAkeStatusPill");
+      const toggleBtn = document.getElementById("btnToggleCierreAke");
+
+      if (akeConfig.cerradaManualmente) {
+        badge.textContent = "● Cerrada temporalmente";
+        badge.className = "px-3 py-1 rounded-full text-xs font-bold border bg-red-500/15 text-red-300 border-red-500/40";
+        headerPill.textContent = "● AKE Tacos Cerrada";
+        headerPill.className = "px-3.5 py-1.5 rounded-full text-xs font-bold border bg-red-500/15 text-red-300 border-red-500/40";
+        toggleBtn.textContent = "Abrir taquería ahora";
+      } else {
+        badge.textContent = "● Abierta para pedidos";
+        badge.className = "px-3 py-1 rounded-full text-xs font-bold border bg-emerald-500/15 text-emerald-300 border-emerald-500/40";
+        headerPill.textContent = "● AKE Tacos Abierta";
+        headerPill.className = "px-3.5 py-1.5 rounded-full text-xs font-bold border bg-emerald-500/15 text-emerald-300 border-emerald-500/40";
+        toggleBtn.textContent = "Cerrar taquería temporalmente";
+      }
+    }
+
+    async function persistAkeConfig() {
+      saveLocalAkeConfig();
+      if (!db) return;
+      try {
+        await setDoc(
+          doc(db, COLLECTION_TAQUERIAS, AKE_BRANCH_ID),
+          {
+            nombre: akeConfig.nombre,
+            colonia: akeConfig.colonia,
+            cp: akeConfig.cp,
+            cerradaManualmente: Boolean(akeConfig.cerradaManualmente),
+            horario: akeConfig.horario
+          },
+          { merge: true }
+        );
+      } catch {
+        // Conserva estado local
+      }
+    }
+
+    document.getElementById("btnToggleCierreAke").addEventListener("click", async () => {
+      akeConfig.cerradaManualmente = !akeConfig.cerradaManualmente;
+      syncAkeBranchUi();
+      await persistAkeConfig();
+    });
+
+    document.getElementById("btnGuardarHorarioAke").addEventListener("click", async () => {
+      const abre = document.getElementById("akeAbreInput").value || "17:00";
+      const cierra = document.getElementById("akeCierraInput").value || "23:59";
+      akeConfig.horario = {
+        ...(akeConfig.horario || { dias: [1, 2, 3, 4, 5, 6, 0] }),
+        abre,
+        cierra
+      };
+      syncAkeBranchUi();
+      await persistAkeConfig();
+    });
+
+    document.querySelectorAll(".ake-filter-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        akeFilter = btn.dataset.akeFilter;
+        document.querySelectorAll(".ake-filter-btn").forEach((b) => {
+          b.classList.remove("bg-tc-accent", "text-white", "font-bold", "border-tc-yellow/40");
+          b.classList.add("bg-tc-panel", "text-[#E5E2DC]", "border", "border-tc-line", "font-medium");
+        });
+        btn.classList.remove("bg-tc-panel", "text-[#E5E2DC]", "border-tc-line", "font-medium");
+        btn.classList.add("bg-tc-accent", "text-white", "font-bold", "border", "border-tc-yellow/40");
+        renderAkePanel();
+      });
+    });
+
+    function readLocalChat(orderKey) {
+      try {
+        const raw = localStorage.getItem(LOCAL_CHAT_PREFIX + orderKey);
+        return raw ? JSON.parse(raw) : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function saveLocalChatMessage(orderKey, msgObj) {
+      try {
+        const arr = readLocalChat(orderKey);
+        arr.push({ ...msgObj, creadoEn: new Date().toISOString() });
+        localStorage.setItem(LOCAL_CHAT_PREFIX + orderKey, JSON.stringify(arr.slice(-80)));
+      } catch {
+        // Sin acción
+      }
+    }
+
+    function renderChatBubblesHtml(messages) {
+      if (!Array.isArray(messages) || messages.length === 0) {
+        return `<p class="text-tc-muted text-center py-2">Sin mensajes en esta orden todavía.</p>`;
+      }
+      return messages
+        .map((m) => {
+          const isTaqueria =
+            m.remitente === "AKE Tacos" ||
+            m.remitente === "TACOS CLOUD" ||
+            m.remitente === "AKE Tacos Cloud" ||
+            m.rol === "cloud" ||
+            m.rol === "taqueria";
+          return `
+            <div class="flex ${isTaqueria ? "justify-end" : "justify-start"}">
+              <div class="max-w-[85%] rounded-xl px-3 py-2 border ${
+                isTaqueria
+                  ? "bg-tc-yellowSoft border-tc-yellow/40 text-white"
+                  : "bg-tc-surface border-tc-line text-[#F7F5F2]"
+              }">
+                <span class="block text-[10px] font-bold uppercase tracking-wider ${
+                  isTaqueria ? "text-tc-yellow" : "text-emerald-400"
+                }">${escapeHtml(m.remitente || (isTaqueria ? "AKE Tacos" : "Cliente"))}</span>
+                <p class="text-xs leading-snug break-words mt-0.5">${escapeHtml(m.texto || "")}</p>
+              </div>
+            </div>
+          `;
+        })
+        .join("");
+    }
+
+    function attachChatListener(orderObj) {
+      const docId = orderObj.firestoreDocId;
+      const key = docId || orderObj.folio;
+      if (!db || !docId || chatListenersByDocId.has(docId)) return;
+
+      const msgsQuery = query(
+        collection(db, COLLECTION_PEDIDOS, docId, "mensajes"),
+        orderBy("creadoEn", "asc")
+      );
+      const unsub = onSnapshot(msgsQuery, (snap) => {
+        const msgs = [];
+        snap.forEach((d) => msgs.push({ id: d.id, ...d.data() }));
+        chatMessagesByOrderKey.set(key, msgs);
+        const listEl = document.querySelector(`[data-ake-chat-list="${key}"]`);
+        if (listEl) {
+          const show = msgs.length > 0 ? msgs : readLocalChat(key);
+          listEl.innerHTML = renderChatBubblesHtml(show);
+          listEl.scrollTop = listEl.scrollHeight;
+        }
+      });
+      chatListenersByDocId.set(docId, unsub);
+    }
+
+    async function setOrderStatus(orderObj, nextStatus) {
+      orderObj.estado = nextStatus;
+
+      if (db && orderObj.firestoreDocId) {
+        try {
+          await updateDoc(doc(db, COLLECTION_PEDIDOS, orderObj.firestoreDocId), {
+            estado: nextStatus
+          });
+        } catch {
+          // Actualiza vista local
+        }
+      }
+
+      try {
+        const raw = localStorage.getItem(LOCAL_BACKUP_KEY);
+        if (raw) {
+          const arr = JSON.parse(raw);
+          const idx = arr.findIndex((x) => x.folio === orderObj.folio);
+          if (idx !== -1) {
+            arr[idx].estado = nextStatus;
+            localStorage.setItem(LOCAL_BACKUP_KEY, JSON.stringify(arr));
+          }
+        }
+      } catch {
+        // Sin acción
+      }
+
+      renderAkePanel();
+    }
+
+    function renderAkePanel() {
+      const onlyAke = akeOrders.filter(belongsToAkeTacos);
+      const activeOrders = onlyAke.filter((o) => (o.estado || "Recibido") !== "Entregado");
+      const deliveredOrders = onlyAke
+        .filter((o) => (o.estado || "Recibido") === "Entregado")
+        .slice(0, 50);
+
+      const cocinaCount = activeOrders.filter((o) =>
+        ["Recibido", "Preparando"].includes(o.estado || "Recibido")
+      ).length;
+      const caminoCount = activeOrders.filter((o) => o.estado === "En camino").length;
+
+      document.getElementById("akeMetricActivas").textContent = String(activeOrders.length);
+      document.getElementById("akeMetricCocina").textContent = String(cocinaCount);
+      document.getElementById("akeMetricCamino").textContent = String(caminoCount);
+      document.getElementById("akeMetricEntregadas").textContent = String(deliveredOrders.length);
+
+      const visibleOrders = activeOrders.filter(
+        (o) => akeFilter === "ALL" || (o.estado || "Recibido") === akeFilter
+      );
+
+      const container = document.getElementById("akeOrdersContainer");
+
+      if (visibleOrders.length === 0) {
+        container.innerHTML = `
+          <div class="lg:col-span-2 bg-tc-panel/90 rounded-2xl p-8 border border-tc-line text-center text-sm text-tc-muted">
+            No hay órdenes activas de AKE Tacos en este filtro por el momento.
+          </div>
+        `;
+      } else {
+        container.innerHTML = visibleOrders
+          .map((order) => {
+            const key = order.firestoreDocId || order.folio;
+            attachChatListener(order);
+
+            const cloudMsgs = chatMessagesByOrderKey.get(key);
+            const msgs = cloudMsgs && cloudMsgs.length > 0 ? cloudMsgs : readLocalChat(key);
+            const currentEstado = ESTADOS_FLUJO.includes(order.estado) ? order.estado : "Recibido";
+
+            const itemsHtml = (Array.isArray(order.items) ? order.items : [])
+              .map(
+                (it) => `
+                  <div class="flex justify-between text-xs text-[#F7F5F2]">
+                    <span><strong class="text-tc-yellow">${Number(it.cantidad || 1)}x</strong> ${escapeHtml(it.nombre)}</span>
+                    <strong>${formatMoney(it.subtotal ?? (it.precio * it.cantidad))}</strong>
+                  </div>
+                `
+              )
+              .join("");
+
+            const statusButtonsHtml = ESTADOS_FLUJO.map((st) => {
+              const active = currentEstado === st;
+              return `
+                <button type="button" data-ake-status="${escapeHtml(st)}" data-order-key="${escapeHtml(key)}"
+                  class="font-display px-3 py-1.5 rounded-lg text-[11px] font-bold border transition cursor-pointer ${
+                    active
+                      ? "bg-tc-yellow text-black border-tc-yellow"
+                      : "bg-tc-bg hover:bg-tc-panel text-[#E5E2DC] border-tc-line"
+                  }">
+                  ${escapeHtml(st)}
+                </button>
+              `;
+            }).join("");
+
+            return `
+              <article class="bg-tc-panel/95 backdrop-blur-md rounded-2xl p-5 sm:p-6 border border-tc-line space-y-4 flex flex-col justify-between">
+                <div class="space-y-4">
+                  <div class="flex flex-wrap items-start justify-between gap-2 pb-3 border-b border-tc-line">
+                    <div>
+                      <span class="font-display text-[11px] font-bold uppercase tracking-wider text-tc-yellow block">
+                        AKE Tacos · Col. Ciudad Lago · CP 57180 · TACOS CLOUD
+                      </span>
+                      <h3 class="font-display text-xl font-extrabold text-white mt-0.5">
+                        Folio: <span class="text-tc-yellow">${escapeHtml(order.folio || "TC-2026-0000")}</span>
+                      </h3>
+                    </div>
+                    <span class="px-3 py-1 rounded-full text-xs font-bold bg-tc-accentSoft text-tc-yellow border border-tc-yellow/40">
+                      ● ${escapeHtml(currentEstado)}
+                    </span>
+                  </div>
+
+                  <div class="bg-tc-bg rounded-xl p-3.5 border border-tc-line space-y-1.5 text-xs">
+                    <p><strong class="text-white">Cliente:</strong> ${escapeHtml(order.clienteNombre || "")} · <span class="text-tc-yellow">${escapeHtml(order.clienteTelefono || "")}</span></p>
+                    <p><strong class="text-white">Envío a domicilio:</strong> ${escapeHtml(order.direccion || "")}</p>
+                    ${
+                      order.mapsUrl
+                        ? `<p><a href="${escapeHtml(order.mapsUrl)}" target="_blank" rel="noopener noreferrer" class="text-emerald-400 underline break-all">📍 Ubicación GPS en Maps</a></p>`
+                        : ""
+                    }
+                    ${
+                      order.notas
+                        ? `<p class="text-[#FEF9C3]"><strong class="text-tc-yellow">Notas:</strong> ${escapeHtml(order.notas)}</p>`
+                        : ""
+                    }
+                  </div>
+
+                  <div class="bg-tc-bg rounded-xl p-3.5 border border-tc-line space-y-1.5">
+                    ${itemsHtml}
+                    <div class="flex justify-between pt-2 border-t border-tc-line font-display text-sm font-extrabold">
+                      <span class="text-white">TOTAL:</span>
+                      <span class="text-tc-yellow">${formatMoney(order.total || 0)}</span>
+                    </div>
+                  </div>
+
+                  <div>
+                    <span class="block font-display text-[11px] font-bold uppercase tracking-wider text-tc-muted mb-2">
+                      Actualizar estado en AKE Tacos:
+                    </span>
+                    <div class="flex flex-wrap gap-1.5">
+                      ${statusButtonsHtml}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="bg-tc-bg rounded-xl p-3.5 border border-tc-line space-y-2.5 pt-3">
+                  <span class="block font-display text-[11px] font-bold uppercase tracking-wider text-tc-yellow">
+                    Chat directo con el cliente
+                  </span>
+                  <div data-ake-chat-list="${escapeHtml(key)}" class="max-h-36 overflow-y-auto space-y-2 pr-1">
+                    ${renderChatBubblesHtml(msgs)}
+                  </div>
+                  <form data-ake-chat-form data-order-key="${escapeHtml(key)}" class="flex items-center gap-2">
+                    <input type="text" placeholder="Escribir mensaje de AKE Tacos..."
+                      class="flex-1 text-xs text-white bg-tc-panel border border-tc-line rounded-lg px-3 py-2 focus:outline-none focus:border-tc-yellow" />
+                    <button type="submit"
+                      class="font-display px-3.5 py-2 rounded-lg bg-tc-accent hover:bg-tc-accentHover text-white text-xs font-bold border border-tc-yellow/35 transition cursor-pointer shrink-0">
+                      Enviar
+                    </button>
+                  </form>
+                </div>
+              </article>
+            `;
+          })
+          .join("");
+
+        container.querySelectorAll("[data-ake-status]").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const key = btn.dataset.orderKey;
+            const nextStatus = btn.dataset.akeStatus;
+            const target = onlyAke.find((o) => (o.firestoreDocId || o.folio) === key);
+            if (target) setOrderStatus(target, nextStatus);
+          });
+        });
+
+        container.querySelectorAll("[data-ake-chat-form]").forEach((formEl) => {
+          formEl.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const inputEl = formEl.querySelector("input");
+            const texto = inputEl ? inputEl.value.trim() : "";
+            if (!texto) return;
+
+            const key = formEl.dataset.orderKey;
+            if (inputEl) inputEl.value = "";
+
+            saveLocalChatMessage(key, {
+              remitente: "AKE Tacos",
+              rol: "taqueria",
+              texto
+            });
+
+            const listEl = document.querySelector(`[data-ake-chat-list="${key}"]`);
+            if (listEl) {
+              listEl.innerHTML = renderChatBubblesHtml(readLocalChat(key));
+              listEl.scrollTop = listEl.scrollHeight;
+            }
+
+            const targetOrder = onlyAke.find((o) => (o.firestoreDocId || o.folio) === key);
+            if (db && targetOrder && targetOrder.firestoreDocId) {
+              try {
+                await addDoc(collection(db, COLLECTION_PEDIDOS, targetOrder.firestoreDocId, "mensajes"), {
+                  remitente: "AKE Tacos",
+                  rol: "taqueria",
+                  texto,
+                  creadoEn: serverTimestamp()
+                });
+              } catch {
+                // Respaldado localmente
+              }
+            }
+          });
+        });
+      }
+
+      const histEl = document.getElementById("akeDeliveredList");
+      document.getElementById("akeDeliveredBadge").textContent =
+        `${deliveredOrders.length} ${deliveredOrders.length === 1 ? "orden entregada" : "órdenes entregadas"}`;
+
+      if (deliveredOrders.length === 0) {
+        histEl.innerHTML = `<p class="text-tc-muted py-2">Aún no hay órdenes entregadas en AKE Tacos.</p>`;
+      } else {
+        histEl.innerHTML = deliveredOrders
+          .map(
+            (o) => `
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 bg-tc-bg rounded-xl px-4 py-3 border border-tc-line">
+              <div>
+                <strong class="font-display text-tc-yellow">${escapeHtml(o.folio || "")}</strong>
+                <span class="mx-1.5 text-white/30">·</span>
+                <span class="text-[#E5E2DC]">${escapeHtml(o.clienteNombre || "")} (${escapeHtml(o.clienteTelefono || "")})</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="text-emerald-400 font-bold">✓ Entregado</span>
+                <strong class="font-display text-white">${formatMoney(o.total || 0)}</strong>
+              </div>
+            </div>
+          `
+          )
+          .join("");
+      }
+    }
+
+    function readBackupOrders() {
+      try {
+        const raw = localStorage.getItem(LOCAL_BACKUP_KEY);
+        const arr = raw ? JSON.parse(raw) : [];
+        return Array.isArray(arr) ? arr : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function mergeAkeOrders(cloudList) {
+      const map = new Map();
+      for (const item of readBackupOrders()) {
+        if (!belongsToAkeTacos(item)) continue;
+        const k = item.folio || item.id;
+        if (k) map.set(k, { ...item });
+      }
+      for (const cItem of cloudList) {
+        if (!belongsToAkeTacos(cItem)) continue;
+        const k = cItem.folio || cItem.firestoreDocId;
+        if (k) map.set(k, { ...cItem });
+      }
+      akeOrders = Array.from(map.values());
+      renderAkePanel();
+    }
+
+    function startAkeSync() {
+      mergeAkeOrders([]);
+      if (!db) return;
+
+      const q = query(collection(db, COLLECTION_PEDIDOS), orderBy("fechaCreacion", "desc"));
+      onSnapshot(
+        q,
+        (snapshot) => {
+          const list = [];
+          snapshot.forEach((d) => {
+            list.push({ firestoreDocId: d.id, ...d.data() });
+          });
+          mergeAkeOrders(list);
+        },
+        () => {
+          mergeAkeOrders([]);
+        }
+      );
+
+      onSnapshot(collection(db, COLLECTION_TAQUERIAS), (snapshot) => {
+        snapshot.forEach((docSnap) => {
+          if (docSnap.id === AKE_BRANCH_ID) {
+            const data = docSnap.data();
+            if (data) {
+              if (typeof data.cerradaManualmente === "boolean") {
+                akeConfig.cerradaManualmente = data.cerradaManualmente;
+              }
+              if (data.horario) {
+                akeConfig.horario = data.horario;
+              }
+            }
+          }
+        });
+        syncAkeBranchUi();
+      });
+    }
+
+    mergeLocalAkeConfig();
+    syncAkeBranchUi();
+    startAkeSync();
+  </script>
+</body>
+</html>
