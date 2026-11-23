@@ -165,21 +165,30 @@
         </div>
 
         <aside class="lg:col-span-5 bg-tc-panel/90 backdrop-blur-md rounded-2xl p-6 border border-tc-line space-y-4">
-          <div class="flex items-center justify-between border-b border-tc-line pb-3">
+          <div class="flex items-center justify-between border-b border-tc-line pb-3 gap-2">
             <span class="font-display text-xs font-bold uppercase tracking-[0.16em] text-tc-accent">
               Sucursal Seleccionada
             </span>
             <span id="heroSelectedCpBadge" class="text-xs font-bold text-tc-maiz">CP 57180</span>
           </div>
 
-          <div>
-            <p id="heroSelectedTaqueriaName" class="font-display text-xl font-bold text-white">AKE Tacos</p>
-            <p id="heroSelectedTaqueriaMeta" class="text-xs text-tc-muted mt-1">
+          <div class="space-y-2">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <p id="heroSelectedTaqueriaName" class="font-display text-xl font-bold text-white">AKE Tacos</p>
+              <span id="heroBranchStatusPill" class="px-2.5 py-1 rounded-full text-[11px] font-bold border bg-emerald-500/15 text-emerald-300 border-emerald-500/40">
+                ● Abierta
+              </span>
+            </div>
+            <p id="heroSelectedTaqueriaMeta" class="text-xs text-tc-muted">
               Sucursal Fundadora · Código Postal 57180 · Activa en TACOS CLOUD
             </p>
           </div>
 
           <div class="pt-2 border-t border-tc-line space-y-2.5 text-xs text-[#D1D5DB]">
+            <div class="flex items-center justify-between">
+              <span class="text-tc-muted">Horario de servicio:</span>
+              <strong id="heroScheduleLabel" class="text-white">17:00 - 23:59</strong>
+            </div>
             <div class="flex items-center justify-between">
               <span class="text-tc-muted">Cercanía estimada:</span>
               <strong id="heroDistanceLabel" class="text-emerald-400 font-bold">Sucursal base (0.0 km)</strong>
@@ -234,7 +243,7 @@
          ======================================================================== -->
     <section id="menu" class="max-w-6xl mx-auto px-4 sm:px-8 py-12 scroll-mt-20">
 
-      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 mb-8 border-b border-tc-line">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 mb-6 border-b border-tc-line">
         <div>
           <span id="menuActiveBranchTag" class="font-display text-xs font-semibold tracking-[0.18em] uppercase text-tc-accent">
             Carta de AKE Tacos · CP 57180
@@ -261,6 +270,19 @@
             class="menu-filter-btn font-display px-4 py-2 rounded-xl text-xs font-medium bg-tc-panel/90 text-[#D1D5DB] border border-tc-line hover:border-tc-accent transition cursor-pointer">
             Bebidas
           </button>
+        </div>
+      </div>
+
+      <!-- Aviso cuando la taquería seleccionada está cerrada manualmente o fuera de horario -->
+      <div id="branchClosedBanner" class="hidden mb-6 rounded-2xl bg-red-500/15 border border-red-500/45 px-5 py-4 flex items-start gap-3">
+        <span class="text-lg leading-none mt-0.5" aria-hidden="true">🔒</span>
+        <div class="text-xs sm:text-sm text-red-100">
+          <strong id="branchClosedBannerTitle" class="font-display font-bold text-red-300 block">
+            Esta taquería no está recibiendo pedidos en este momento.
+          </strong>
+          <span id="branchClosedBannerDesc">
+            Consulta el horario de atención o selecciona otra taquería afiliada abierta arriba.
+          </span>
         </div>
       </div>
 
@@ -396,7 +418,7 @@
           <div id="pedidoErrorBox" class="hidden text-xs font-semibold text-[#FCA5A5] bg-[#451A1A] border border-[#991B1B] rounded-xl px-4 py-3"></div>
 
           <button id="submitPedidoBtn" type="submit"
-            class="font-display w-full py-3.5 px-6 rounded-xl bg-tc-accent hover:bg-tc-accentHover text-white text-sm font-bold tracking-wide transition flex items-center justify-center gap-2 cursor-pointer">
+            class="font-display w-full py-3.5 px-6 rounded-xl bg-tc-accent hover:bg-tc-accentHover disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-bold tracking-wide transition flex items-center justify-center gap-2 cursor-pointer">
             <span>Enviar Pedido a TACOS CLOUD</span>
             <span>→</span>
           </button>
@@ -534,7 +556,7 @@
   </footer>
 
   <!-- ========================================================================
-       SCRIPT MÓDULO ES6: TAQUERÍAS AFILIADAS (AKE TACOS CP 57180) + CERCANÍA + CHAT
+       SCRIPT MÓDULO ES6: TAQUERÍAS AFILIADAS + HORARIO/CIERRE EN VIVO + CERCANÍA
        ======================================================================== -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -559,9 +581,11 @@
     };
 
     const COLLECTION_PEDIDOS = "ake_pedidos";
+    const COLLECTION_TAQUERIAS = "tacos_cloud_taquerias";
     const LOCAL_BACKUP_KEY = "tacos_cloud_pedidos_backup";
     const LOCAL_CHAT_PREFIX = "tacos_cloud_chat_";
     const ACTIVE_ORDER_STORAGE_KEY = "tacos_cloud_active_order";
+    const TAQUERIAS_STATE_KEY = "tacos_cloud_taquerias_state";
 
     let db = null;
     try {
@@ -622,7 +646,6 @@
       }
     ];
 
-    // Catálogo de taquerías afiliadas (AKE Tacos CP 57180 como sucursal fundadora + slots listos para afiliar más)
     const TAQUERIAS_AFILIADAS = [
       {
         id: "ake-tacos-57180",
@@ -631,7 +654,12 @@
         zona: "Sucursal Fundadora · CP 57180",
         lat: 19.4036,
         lng: -99.0148,
-        destacada: true,
+        cerradaManualmente: false,
+        horario: {
+          abre: "17:00",
+          cierra: "23:59",
+          dias: [1, 2, 3, 4, 5, 6, 0]
+        },
         menu: BASE_AKE_MENU
       },
       {
@@ -641,7 +669,12 @@
         zona: "Zona Oriente · Próxima afiliación",
         lat: 19.4120,
         lng: -99.0050,
-        destacada: false,
+        cerradaManualmente: false,
+        horario: {
+          abre: "18:00",
+          cierra: "23:30",
+          dias: [1, 2, 3, 4, 5, 6, 0]
+        },
         menu: BASE_AKE_MENU.map((m) => ({ ...m, id: `af2-${m.id}` }))
       },
       {
@@ -651,7 +684,12 @@
         zona: "Zona Centro · Próxima afiliación",
         lat: 19.4005,
         lng: -99.0195,
-        destacada: false,
+        cerradaManualmente: false,
+        horario: {
+          abre: "18:00",
+          cierra: "23:30",
+          dias: [1, 2, 3, 4, 5, 6, 0]
+        },
         menu: BASE_AKE_MENU.map((m) => ({ ...m, id: `af3-${m.id}` }))
       }
     ];
@@ -674,6 +712,88 @@
         descripcion: "Gracias por ordenar en TACOS CLOUD. ¡Buen provecho!"
       }
     };
+
+    function mergeLocalTaqueriasConfig() {
+      try {
+        const raw = localStorage.getItem(TAQUERIAS_STATE_KEY);
+        if (!raw) return;
+        const savedList = JSON.parse(raw);
+        if (!Array.isArray(savedList)) return;
+        savedList.forEach((saved) => {
+          const target = TAQUERIAS_AFILIADAS.find((t) => t.id === saved.id);
+          if (target) {
+            if (typeof saved.cerradaManualmente === "boolean") {
+              target.cerradaManualmente = saved.cerradaManualmente;
+            }
+            if (saved.horario) {
+              target.horario = saved.horario;
+            }
+          }
+        });
+      } catch {
+        // Sin acción
+      }
+    }
+
+    function parseHhMmToMinutes(hhmm) {
+      if (!hhmm || !hhmm.includes(":")) return null;
+      const [h, m] = hhmm.split(":").map(Number);
+      if (Number.isNaN(h) || Number.isNaN(m)) return null;
+      return h * 60 + m;
+    }
+
+    function isWithinSchedule(horario) {
+      if (!horario) return true;
+      const now = new Date();
+      const dayNow = now.getDay();
+      const allowedDays = Array.isArray(horario.dias) ? horario.dias : [1, 2, 3, 4, 5, 6, 0];
+      if (!allowedDays.includes(dayNow)) return false;
+
+      const openMin = parseHhMmToMinutes(horario.abre);
+      const closeMin = parseHhMmToMinutes(horario.cierra);
+      if (openMin === null || closeMin === null) return true;
+
+      const curMin = now.getHours() * 60 + now.getMinutes();
+      if (closeMin >= openMin) {
+        return curMin >= openMin && curMin <= closeMin;
+      }
+      return curMin >= openMin || curMin <= closeMin;
+    }
+
+    function getBranchAvailability(branch) {
+      const scheduleText = `${branch.horario?.abre || "17:00"} - ${branch.horario?.cierra || "23:59"}`;
+      if (branch.cerradaManualmente) {
+        return {
+          open: false,
+          reason: "manual",
+          badgeText: "● Cerrada temporalmente",
+          badgeClass: "bg-red-500/15 text-red-300 border-red-500/40",
+          scheduleText,
+          bannerTitle: `${branch.nombre} está cerrada temporalmente por operación.`,
+          bannerDesc: "La sucursal pausó temporalmente los pedidos en línea. Intenta más tarde o elige otra taquería."
+        };
+      }
+      if (!isWithinSchedule(branch.horario)) {
+        return {
+          open: false,
+          reason: "schedule",
+          badgeText: "● Fuera de horario",
+          badgeClass: "bg-amber-500/15 text-amber-300 border-amber-500/40",
+          scheduleText,
+          bannerTitle: `${branch.nombre} se encuentra fuera de horario de servicio.`,
+          bannerDesc: `Horario configurado: ${scheduleText}. Vuelve dentro de ese horario para hacer tu pedido.`
+        };
+      }
+      return {
+        open: true,
+        reason: "open",
+        badgeText: "● Abierta",
+        badgeClass: "bg-emerald-500/15 text-emerald-300 border-emerald-500/40",
+        scheduleText,
+        bannerTitle: "",
+        bannerDesc: ""
+      };
+    }
 
     let selectedTaqueriaId = TAQUERIAS_AFILIADAS[0].id;
     let distancesByTaqueriaId = new Map();
@@ -761,16 +881,37 @@
     function syncBranchLabels() {
       const branch = getSelectedTaqueria();
       const km = distancesByTaqueriaId.get(branch.id);
+      const avail = getBranchAvailability(branch);
 
       document.getElementById("heroSelectedCpBadge").textContent = `CP ${branch.cp}`;
       document.getElementById("heroSelectedTaqueriaName").textContent = branch.nombre;
       document.getElementById("heroSelectedTaqueriaMeta").textContent = `${branch.zona} · Código Postal ${branch.cp}`;
+      document.getElementById("heroScheduleLabel").textContent = avail.scheduleText;
       document.getElementById("heroDistanceLabel").textContent =
         typeof km === "number" ? `${km} km aprox.` : "Sucursal principal (CP 57180)";
 
-      document.getElementById("menuActiveBranchTag").textContent = `Carta de ${branch.nombre} · CP ${branch.cp}`;
+      const heroPill = document.getElementById("heroBranchStatusPill");
+      heroPill.textContent = avail.badgeText;
+      heroPill.className = `px-2.5 py-1 rounded-full text-[11px] font-bold border ${avail.badgeClass}`;
+
+      document.getElementById("menuActiveBranchTag").textContent = `Carta de ${branch.nombre} · CP ${branch.cp} · ${avail.scheduleText}`;
       document.getElementById("menuActiveBranchTitle").textContent = `Menú de ${branch.nombre}`;
       document.getElementById("formBranchSummary").textContent = `${branch.nombre} (CP ${branch.cp})`;
+
+      const closedBanner = document.getElementById("branchClosedBanner");
+      const submitBtn = document.getElementById("submitPedidoBtn");
+
+      if (!avail.open) {
+        document.getElementById("branchClosedBannerTitle").textContent = avail.bannerTitle;
+        document.getElementById("branchClosedBannerDesc").textContent = avail.bannerDesc;
+        closedBanner.classList.remove("hidden");
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `<span>Sucursal Cerrada Temporalmente</span>`;
+      } else {
+        closedBanner.classList.add("hidden");
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = `<span>Enviar Pedido a TACOS CLOUD</span><span>→</span>`;
+      }
     }
 
     function renderTaqueriasGrid() {
@@ -779,29 +920,34 @@
         const isSelected = t.id === selectedTaqueriaId;
         const isNearest = t.id === nearestTaqueriaId;
         const km = distancesByTaqueriaId.get(t.id);
+        const avail = getBranchAvailability(t);
 
         return `
           <article class="bg-tc-panel/95 backdrop-blur-sm rounded-2xl p-5 border ${
             isSelected ? "border-tc-accent" : "border-tc-line"
           } flex flex-col justify-between gap-4 transition">
             <div class="space-y-2">
-              <div class="flex items-center justify-between gap-2">
+              <div class="flex flex-wrap items-center justify-between gap-2">
                 <span class="font-display text-xs font-bold uppercase tracking-wider text-tc-maiz">
                   CP ${escapeHtml(t.cp)}
                 </span>
-                ${
-                  isNearest
-                    ? `<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/35">
-                         ★ Más cercana
-                       </span>`
-                    : `<span class="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-tc-bg text-tc-muted border border-tc-line">
-                         Afiliada
-                       </span>`
-                }
+                <div class="flex items-center gap-1.5">
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-bold border ${avail.badgeClass}">
+                    ${escapeHtml(avail.badgeText)}
+                  </span>
+                  ${
+                    isNearest
+                      ? `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/35">
+                           ★ Más cercana
+                         </span>`
+                      : ""
+                  }
+                </div>
               </div>
 
               <h3 class="font-display text-xl font-bold text-white">${escapeHtml(t.nombre)}</h3>
               <p class="text-xs text-tc-muted">${escapeHtml(t.zona)}</p>
+              <p class="text-xs text-[#D1D5DB]">Horario: <strong class="text-white">${escapeHtml(avail.scheduleText)}</strong></p>
               ${
                 typeof km === "number"
                   ? `<p class="text-xs font-semibold text-emerald-400">Distancia estimada: ${km} km</p>`
@@ -815,7 +961,7 @@
                   ? "bg-tc-accent text-white"
                   : "bg-tc-bg hover:bg-[#1C1F27] text-[#E5E7EB] border border-tc-line"
               }">
-              ${isSelected ? "✓ Seleccionada para pedir" : "Pedir en esta taquería"}
+              ${isSelected ? "✓ Seleccionada para pedir" : "Ver menú de esta taquería"}
             </button>
           </article>
         `;
@@ -858,7 +1004,7 @@
           renderOrderSummary();
         },
         () => {
-          // Si se niega el GPS, se mantiene AKE Tacos CP 57180 como sucursal base
+          // Mantiene AKE Tacos CP 57180 como sucursal base
         },
         { enableHighAccuracy: true, timeout: 8000 }
       );
@@ -891,6 +1037,7 @@
 
     function renderMenuGrid() {
       const branch = getSelectedTaqueria();
+      const avail = getBranchAvailability(branch);
       const grid = document.getElementById("menuGrid");
       const items = branch.menu.filter(
         (item) => activeCategoryFilter === "ALL" || item.categoria === activeCategoryFilter
@@ -911,7 +1058,7 @@
                </div>`;
 
           return `
-            <article class="bg-tc-panel/95 backdrop-blur-sm rounded-2xl p-5 border border-tc-line hover:border-tc-accent/70 transition flex flex-col justify-between">
+            <article class="bg-tc-panel/95 backdrop-blur-sm rounded-2xl p-5 border border-tc-line ${avail.open ? "hover:border-tc-accent/70" : "opacity-80"} transition flex flex-col justify-between">
               <div>
                 ${mediaBlock}
                 <div class="flex items-start justify-between gap-2">
@@ -923,11 +1070,11 @@
 
               <div class="mt-5 pt-3.5 border-t border-tc-line flex items-center justify-between gap-2">
                 <span class="text-xs text-tc-muted">
-                  ${qty > 0 ? `En pedido: <strong class="text-white">${qty}</strong>` : "Listo para agregar"}
+                  ${qty > 0 ? `En pedido: <strong class="text-white">${qty}</strong>` : (avail.open ? "Listo para agregar" : "Sucursal cerrada")}
                 </span>
-                <button type="button" data-add-menu-item="${escapeHtml(item.id)}"
-                  class="add-menu-btn font-display px-4 py-2 rounded-xl bg-tc-accent hover:bg-tc-accentHover text-white text-xs font-semibold transition cursor-pointer">
-                  ${qty > 0 ? "+ Agregar otro" : "+ Agregar al pedido"}
+                <button type="button" data-add-menu-item="${escapeHtml(item.id)}" ${avail.open ? "" : "disabled"}
+                  class="add-menu-btn font-display px-4 py-2 rounded-xl bg-tc-accent hover:bg-tc-accentHover disabled:opacity-45 disabled:cursor-not-allowed text-white text-xs font-semibold transition cursor-pointer">
+                  ${!avail.open ? "No disponible" : (qty > 0 ? "+ Agregar otro" : "+ Agregar al pedido")}
                 </button>
               </div>
             </article>
@@ -937,6 +1084,7 @@
 
       grid.querySelectorAll("[data-add-menu-item]").forEach((btn) => {
         btn.addEventListener("click", () => {
+          if (!getBranchAvailability(branch).open) return;
           const item = branch.menu.find((m) => m.id === btn.dataset.addMenuItem);
           if (!item) return;
           const existing = orderCart.get(item.id);
@@ -1186,7 +1334,7 @@
 
       listEl.innerHTML = messages
         .map((m) => {
-          const isCliente = m.remitente !== "TACOS CLOUD" && m.rol !== "cloud";
+          const isCliente = m.remitente !== "TACOS CLOUD" && m.remitente !== "AKE Tacos Cloud" && m.rol !== "cloud";
           return `
             <div class="flex ${isCliente ? "justify-end" : "justify-start"}">
               <div class="max-w-[82%] rounded-2xl px-3.5 py-2.5 border ${
@@ -1384,6 +1532,13 @@
       hidePedidoError();
 
       const branch = getSelectedTaqueria();
+      const avail = getBranchAvailability(branch);
+
+      if (!avail.open) {
+        showPedidoError(avail.bannerTitle);
+        return;
+      }
+
       const items = Array.from(orderCart.values()).map((it) => ({
         id: it.id,
         nombre: it.nombre,
@@ -1496,6 +1651,7 @@
       tacosCloudForm.reset();
       clearCapturedLocation();
       hidePedidoError();
+      syncBranchLabels();
       renderMenuGrid();
       renderOrderSummary();
       document.getElementById("seguimiento").classList.add("hidden");
@@ -1503,11 +1659,48 @@
       document.getElementById("pedido").scrollIntoView({ behavior: "smooth", block: "start" });
     });
 
+    // Sincronización en tiempo real del estado de taquerías (cierre manual y horario desde TACOS CLOUD Interno)
+    function startTaqueriasRealtimeSync() {
+      if (!db) return;
+      onSnapshot(
+        collection(db, COLLECTION_TAQUERIAS),
+        (snapshot) => {
+          snapshot.forEach((docSnap) => {
+            const data = docSnap.data();
+            const target = TAQUERIAS_AFILIADAS.find((t) => t.id === docSnap.id);
+            if (target && data) {
+              if (typeof data.cerradaManualmente === "boolean") {
+                target.cerradaManualmente = data.cerradaManualmente;
+              }
+              if (data.horario) {
+                target.horario = data.horario;
+              }
+            }
+          });
+          syncBranchLabels();
+          renderTaqueriasGrid();
+          renderMenuGrid();
+        },
+        () => {
+          // Si Firestore no responde, conserva estado local
+        }
+      );
+    }
+
+    mergeLocalTaqueriasConfig();
     computeDistancesFromCp("57180");
     syncBranchLabels();
     renderTaqueriasGrid();
     renderMenuGrid();
     renderOrderSummary();
+    startTaqueriasRealtimeSync();
+
+    // Actualiza automáticamente la validación de horario cada minuto
+    setInterval(() => {
+      syncBranchLabels();
+      renderTaqueriasGrid();
+      renderMenuGrid();
+    }, 60000);
 
     const restoredSession = readActiveOrderSession();
     if (restoredSession && restoredSession.folio) {
